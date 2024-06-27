@@ -3,6 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 import mongooseConnectionDB from "./config/db.js";
+import authRouter from "./routes/authRoute.js";
+
+//importing routes
 
 const app = express();
 
@@ -15,9 +18,8 @@ mongooseConnectionDB(process.env.MONGO_URL);
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
+//routes
+app.use("/api/auth", authRouter);
 
 app.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}`);
