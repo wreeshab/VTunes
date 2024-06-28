@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 const Register = ({ setCurrState }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -12,6 +13,7 @@ const Register = ({ setCurrState }) => {
     success: false,
     message: '',
   });
+  const {login} = useContext(AuthContext)
 
 
   const { name, email, password } = formData;
@@ -29,7 +31,9 @@ const Register = ({ setCurrState }) => {
       if (response.data.success) {
         const token = response.data.token;
         localStorage.setItem('token', token);
-        navigate('/dashboard');
+        
+        login({token});
+        
       }
       setResponse({
         success: true,
@@ -37,7 +41,7 @@ const Register = ({ setCurrState }) => {
       });
       // Handle registration success (e.g., redirect, show success message)
     } catch (error) {
-      console.error(error.response.data);
+      // console.error(error.response.data);
       setResponse({
         success: false,
         message: error.response.data.message,
@@ -92,10 +96,9 @@ const Register = ({ setCurrState }) => {
           {<p className="text-red-500 text-center"> {response.message} </p>}
           <button type="submit" className="w-full bg-purple-600 text-white p-3 rounded hover:bg-purple-700 transition duration-300">Register</button>
         </form>
-        <hr className="w-full bg-blue-300 my-4" />
-        <button type="button" className="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700 transition duration-300 flex items-center justify-center gap-3">
-          <span>LoginRegister with</span>
-          <img className="w-7 h-7" src="" alt="Delta Logo Green" />
+        <hr className="w-full h-0.5  bg-blue-300 my-4" />
+        <button type="" className="w-full bg-blue-900 text-white p-3 rounded hover:bg-blue-700 transition duration-300 flex items-center justify-center gap-3">
+          <span>Login with</span> <img className="w-7 h-7" src="./images/deltaLogoGreen.png" alt="delta" />
         </button>
         <p className="text-center text-gray-600 mt-4">Already have an account? <span className="text-blue-500 cursor-pointer" onClick={() => setCurrState("login")}>Click Here</span></p>
       </div>

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import axios from 'axios';
-import '../assets/deltaLogoGreen.png';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const Login = ({ setCurrState }) => {
     const [formData, setFormData] = useState({
@@ -12,6 +12,8 @@ const Login = ({ setCurrState }) => {
         success: false,
         message: '',
     });
+
+    const {login} = useContext(AuthContext)
 
 
     const onChange = (e) => {
@@ -32,7 +34,7 @@ const Login = ({ setCurrState }) => {
             if (response.data.success) {
                 const token = response.data.token;
                 localStorage.setItem('token', token);
-                navigate('/dashboard');
+                login({token})
             }
             setResponse({
                 success: true,
@@ -85,7 +87,7 @@ const Login = ({ setCurrState }) => {
                 </form>
                 <hr className="w-full bg-blue-300 my-4" />
                 <button type="" className="w-full bg-green-600 text-white p-3 rounded hover:bg-green-700 transition duration-300 flex items-center justify-center gap-3">
-                    <span>Login with</span> <img className="w-7 h-7" src="" alt="delta" />
+                    <span>Login with</span> <img className="w-7 h-7" src="./images/deltaLogoGreen.png" alt="delta" />
                 </button>
                 <p className="text-center text-gray-600 mt-4">Don't have an account? <span className="text-purple-600 cursor-pointer" onClick={() => setCurrState('signup')}>Sign up</span></p>
             </div>
