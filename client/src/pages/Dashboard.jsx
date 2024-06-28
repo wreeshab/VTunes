@@ -1,9 +1,15 @@
 import React from 'react'
+import Sidebar from '../components/Sidebar'
+import TrackBar from '../components/TrackBar'
 
 const Dashboard = () => {
   return (
-    <div>
-      <h1 className='text-center' >Dashboard</h1>
+    <div className='h-screen w-screen bg-white'>
+      <div className='h-[90%] flex'>
+
+        <Sidebar />
+      </div>
+    <TrackBar/>
     </div>
   )
 }
