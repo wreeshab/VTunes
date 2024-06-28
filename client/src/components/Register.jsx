@@ -31,6 +31,7 @@ const Register = ({ setCurrState }) => {
       if (response.data.success) {
         const token = response.data.token;
         localStorage.setItem('token', token);
+        navigate('/dashboard');
         
         login({token});
         
