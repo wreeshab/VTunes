@@ -1,3 +1,4 @@
+import Artist from "../models/Artist.js";
 import Song from "../models/Song.js";
 
 const createSong = async (req, res) => {
@@ -19,11 +20,36 @@ const createSong = async (req, res) => {
     .json({ message: "Song created successfully!", song: newSong });
 };
 
-//get all songs that an artist has published
+//get all songs that I (artist) has published
 const getAllSongsForArtist = async (req, res) => {
-  const artistID = req.userID.id ;
+  const artistID = req.userID.id;
   const songs = await Song.find({ artist: artistID });
   return res.status(200).json({ songs });
 };
 
-export { createSong, getAllSongsForArtist };
+//get all songs by any (single) artist
+const getAllSongsByAnArtistForUser = async (req, res) => {
+  const artistId = req.params.artistId;
+  const artist = await Artist.findById(artistId);
+  if (!artist) {
+    return res.status(404).json({ message: "Artist not found" });
+  }
+
+  const songs = await Song.find({ artist: artistId });
+  return res.status(200).json({ songs });
+};
+
+//get a single song by name
+const getSongByName = async (req, res) => {
+  //exact name-matching is not good ---> do pattern matching
+  const songName = req.params.songName;
+  const songs = await Song.find({ name: songName });
+  return res.status(200).json({ songs });
+};
+
+export {
+  createSong,
+  getAllSongsForArtist,
+  getAllSongsByAnArtistForUser,
+  getSongByName,
+};
