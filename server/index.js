@@ -5,6 +5,7 @@ dotenv.config();
 import mongooseConnectionDB from "./config/db.js";
 import authRouter from "./routes/authRoute.js";
 import artistAuthRouter from "./routes/artistAuthRoute.js";
+import songRouter from "./routes/songRoute.js";
 
 //importing routes
 
@@ -22,6 +23,7 @@ app.use(express.json());
 //routes
 app.use("/api/auth", authRouter);
 app.use("/api/artist-auth", artistAuthRouter);
+app.use("/api/songs",songRouter)
 
 app.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}`);
