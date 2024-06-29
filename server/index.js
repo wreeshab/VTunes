@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import mongooseConnectionDB from "./config/db.js";
 import authRouter from "./routes/authRoute.js";
+import artistAuthRouter from "./routes/artistAuthRoute.js";
 
 //importing routes
 
@@ -20,6 +21,7 @@ app.use(express.json());
 
 //routes
 app.use("/api/auth", authRouter);
+app.use("/api/artist-auth", artistAuthRouter);
 
 app.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}`);
