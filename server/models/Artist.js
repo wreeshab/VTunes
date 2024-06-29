@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const artistSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -14,24 +14,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  createdAt: {
+  joinedAt: {
     type: Date,
     default: Date.now,
   },
-  likedSongs: [
+  composedSongs: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Song",
     },
   ],
-  createdPlaylists: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Playlist",
-    },
-  ],
 });
 
-const User = mongoose.model("User", userSchema);
+const Artist = mongoose.model("Artist", artistSchema);
 
-export default User;
+export default Artist;
