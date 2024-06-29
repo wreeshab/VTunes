@@ -5,13 +5,16 @@ import { BiSolidPlaylist } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa6";
 import { FaUserFriends } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
+import { useNavigate } from 'react-router-dom';
+
 
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   return (
     <div className='w-[25%] h-full p-2 text-xl  flex-col gap-3 text-black hidden bg-lime-200 lg:flex '>
       <div className=' h-[15%] rounded flex flex-col justify-around' >
-        <div className='flex items-center cursor-pointer gap-3 pl-8'>
+        <div className='flex items-center cursor-pointer gap-3 pl-8' onClick={ () => navigate('/dashboard') }>
           <FaHome />
           <p className='font-semibold' >Dashboard</p>
         </div>
@@ -20,7 +23,7 @@ const Sidebar = () => {
           <p className='font-semibold' >Search</p>
         </div>
       </div>
-      <hr className='w-full bg-black h-2 ' />
+      <hr className='w-[50%] m-auto   bg-black h-0.5 ' />
       <div className=' h-[85%] rounded'>
         
         <div className='p-4 flex items-center justify-between mt-5 '>
