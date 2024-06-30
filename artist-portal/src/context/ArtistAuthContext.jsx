@@ -1,6 +1,6 @@
 import React, { Children, useEffect, useState } from "react";
 import { createContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 
 const ArtistAuthContext = createContext();
 
@@ -26,6 +26,15 @@ const ArtistAuthProvider = ({ children }) => {
     setIsArtistAuthenticated(true);
     setArtist(artistData)
   }
+  const navigate = useNavigate()
+  
+  const artistLogout = () => {
+    localStorage.removeItem("token");
+    setIsArtistAuthenticated(false);
+    setArtist(null);
+    navigate("/")
+
+  }
 
   return(
     <ArtistAuthContext.Provider
@@ -34,6 +43,7 @@ const ArtistAuthProvider = ({ children }) => {
         artistLogin,
         artist,
         loadingArtist,
+        artistLogout
       }}
     >
       {children}

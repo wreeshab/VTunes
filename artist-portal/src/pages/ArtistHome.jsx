@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
+import ArtistNavbar from "../components/ArtistNavbar";
 
 const ArtistHome = () => {
   return (
-    <div>
-      Artist Home
+    <div className="bg-black w-full h-screen">
+      <ArtistNavbar />
     </div>
-  )
-}
+  );
+};
 
-export default ArtistHome
+export default ArtistHome;
