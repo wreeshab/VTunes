@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const userAuthMiddleware = (req, res, next) => {
-  const token = req.headers("Authorization").replace("Bearer ", "");
+  const token = req.header("Authorization").replace("Bearer ", "");
   if (!token) {
     return res
       .status(401)
@@ -17,7 +17,6 @@ const userAuthMiddleware = (req, res, next) => {
       .status(401)
       .json({ message: "Unauthorized User/ Invalid Token", success: false });
   }
-
 };
 
 export default userAuthMiddleware;

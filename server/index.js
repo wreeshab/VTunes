@@ -6,6 +6,7 @@ import mongooseConnectionDB from "./config/db.js";
 import authRouter from "./routes/authRoute.js";
 import artistAuthRouter from "./routes/artistAuthRoute.js";
 import songRouter from "./routes/songRoute.js";
+import playlistRouter from "./routes/playlistRoute.js";
 
 //importing routes
 
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/artist-auth", artistAuthRouter);
 app.use("/api/songs",songRouter)
+app.use("/api/playlist", playlistRouter)
 
 app.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}`);

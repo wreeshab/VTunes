@@ -5,9 +5,6 @@ const playlistSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: {
-    type: String,
-  },
   songs: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -20,6 +17,7 @@ const playlistSchema = new mongoose.Schema({
   },
   thumbnail: {
     type: String,
+    required: true,
   },
 });
 
