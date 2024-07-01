@@ -18,8 +18,23 @@ const songSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  uploadedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  likes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
+  dislikes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
-
 
 const Song = mongoose.model("Song", songSchema);
 

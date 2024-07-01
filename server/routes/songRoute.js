@@ -8,6 +8,10 @@ import {
 } from "../controllers/songController.js";
 import userAuthMiddleware from "../middleware/userAuthMiddleware.js";
 import upload from "../middleware/multerMiddleware.js";
+import {
+  dislikeSong,
+  likeSong,
+} from "../controllers/likesDislikesController.js";
 
 const songRouter = express.Router();
 
@@ -35,6 +39,12 @@ songRouter.get(
   userAuthMiddleware,
   getAllSongsByAnArtistForUser
 );
+
+// like a song
+songRouter.post("/like/:id", userAuthMiddleware, likeSong);
+
+// dislike a song
+songRouter.post("/dislike/:id", userAuthMiddleware, dislikeSong);
 
 // get song by name
 songRouter.get("/song-by-name/:songName", userAuthMiddleware, getSongByName);
