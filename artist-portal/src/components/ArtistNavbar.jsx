@@ -17,7 +17,7 @@ const ArtistNavbar = () => {
   };
 
   return (
-    <div className="bg-white p-4 shadow-md flex justify-between items-center">
+    <div className="bg-white p-4 shadow-md flex justify-between items-center h-[7%]">
       <div className="text-2xl font-bold">
         DTunes Artist
       </div>
