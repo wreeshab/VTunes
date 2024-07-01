@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const artistAuthMiddleware = (req, res, next) => {
+  console.log("artistAuthMiddleware");
   const token = req.header("Authorization").replace("Bearer ", "");
   if (!token) {
     return res

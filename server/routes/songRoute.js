@@ -7,11 +7,20 @@ import {
   getSongByName,
 } from "../controllers/songController.js";
 import userAuthMiddleware from "../middleware/userAuthMiddleware.js";
+import upload from "../middleware/multerMiddleware.js";
 
 const songRouter = express.Router();
 
 //create song
-songRouter.post("/create", artistAuthMiddleware, createSong);
+songRouter.post(
+  "/create",
+  artistAuthMiddleware,
+  upload.fields([
+    { name: "thumbnailImage", maxCount: 1 },
+    { name: "trackFile", maxCount: 1 },
+  ]),
+  createSong
+);
 
 //get all songs for artist portal
 songRouter.get(

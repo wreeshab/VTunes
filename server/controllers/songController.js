@@ -1,23 +1,44 @@
 import Artist from "../models/Artist.js";
 import Song from "../models/Song.js";
+import uploadToCloudinary from "../utils/cloudinary.js";
 
 const createSong = async (req, res) => {
-  const { name, thumbnailUrl, audioUrl } = req.body;
-  if (!name || !thumbnailUrl || !audioUrl) {
+  // console.log(req);
+  const { name } = req.body;
+  const thumbnailFile = req.files.thumbnailImage[0];
+  const audioFile = req.files.trackFile[0];
+  const artistID = req.userID.id;
+  console.log(req.files,"req.files");
+  
+  if (!name || !thumbnailFile || !audioFile) {
+    console.log(name , thumbnailFile, audioFile)
     return res.status(400).json({ message: "All fields are required!" });
   }
-  //here idk why but artistID is not a string but object like this --->{ id: '66801733adb399ac07ea1ec7', iat: 1719670579 } where artistID.id will give actual mongoose id which is not what i anticipated
-  const artistID = req.userID.id; // see here the jwt toke im signing is only the mongodb id not other info like username,email etc...
-  const newSong = new Song({
-    name,
-    thumbnailUrl,
-    audioUrl,
-    artist: artistID,
-  });
-  await newSong.save();
-  return res
-    .status(201)
-    .json({ message: "Song created successfully!", song: newSong });
+  try {
+    console.log(thumbnailFile, audioFile);
+
+    const thumbnailResponse = await uploadToCloudinary(thumbnailFile.path);
+    const audioResponse = await uploadToCloudinary(audioFile.path);
+    console.log("thumbnailResponse", thumbnailResponse);
+    console.log("audioResponse" ,audioResponse);
+    const newSong = new Song({
+      name,
+      thumbnailUrl: thumbnailResponse.secure_url,
+      audioUrl: audioResponse.secure_url,
+      artist: artistID,
+    });
+    await newSong.save();
+
+    return res
+      .status(201)
+      .json({
+        message: "Track Published Successfully!",
+        song: newSong,
+        success: true,
+      });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 //get all songs that I (artist) has published
