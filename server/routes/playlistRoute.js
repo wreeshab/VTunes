@@ -3,7 +3,7 @@ import userAuthMiddleware from "../middleware/userAuthMiddleware.js";
 import {
   addSongToPlaylist,
   createPlaylist,
-  getAllPlaylists,
+  getAllPlaylistsMadeByUser,
   getPlaylistById,
   removeSongFromPlaylist,
 } from "../controllers/playlistController.js";
@@ -13,7 +13,7 @@ const playlistRouter = express.Router();
 playlistRouter.post("/create", userAuthMiddleware, createPlaylist);
 
 //get all playlists
-playlistRouter.get("/", userAuthMiddleware, getAllPlaylists);
+playlistRouter.get("/", userAuthMiddleware, getAllPlaylistsMadeByUser);
 
 //get playlist by id
 playlistRouter.get("/:id", userAuthMiddleware, getPlaylistById);

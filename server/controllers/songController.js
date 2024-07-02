@@ -2,6 +2,14 @@ import Artist from "../models/Artist.js";
 import Song from "../models/Song.js";
 import uploadToCloudinary from "../utils/cloudinary.js";
 
+
+const getAllSongsGlobal = async (req, res) => {
+  const songs = await Song.find();
+  return res.status(200).json({ songs });
+};
+
+
+
 const createSong = async (req, res) => {
   // console.log(req);
   const { name } = req.body;
@@ -73,4 +81,5 @@ export {
   getAllSongsForArtist,
   getAllSongsByAnArtistForUser,
   getSongByName,
+  getAllSongsGlobal
 };

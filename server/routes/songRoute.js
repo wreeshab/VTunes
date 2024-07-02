@@ -5,6 +5,7 @@ import {
   getAllSongsByAnArtistForUser,
   getAllSongsForArtist,
   getSongByName,
+  getAllSongsGlobal
 } from "../controllers/songController.js";
 import userAuthMiddleware from "../middleware/userAuthMiddleware.js";
 import upload from "../middleware/multerMiddleware.js";
@@ -25,6 +26,8 @@ songRouter.post(
   ]),
   createSong
 );
+
+songRouter.get("/",userAuthMiddleware,getAllSongsGlobal)
 
 //get all songs for artist portal
 songRouter.get(

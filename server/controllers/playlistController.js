@@ -1,5 +1,6 @@
 import Playlist from "../models/Playlist.js";
 import Song from "../models/Song.js";
+import User from "../models/User.js";
 
 const createPlaylist = async (req, res) => {
   const currentUserId = req.userID.id; //again that sme object appearing that no one anticipated
@@ -15,6 +16,10 @@ const createPlaylist = async (req, res) => {
     owner: currentUserId,
   };
   const playlist = await Playlist.create(playlistData);
+  const user = await User.findById(currentUserId);
+  user.createdPlaylists.push(playlist._id);
+  await user.save();
+
   res.status(201).json(playlist);
 };
 
@@ -27,9 +32,16 @@ const getPlaylistById = async (req, res) => {
   res.status(200).json(playlist);
 };
 
-const getAllPlaylists = async (req, res) => {
-  const playlists = await Playlist.find();
-  res.status(200).json(playlists);
+const getAllPlaylistsMadeByUser = async (req, res) => {
+  const userId = req.userID.id;
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.status(404).json({ message: "User not found." });
+  }
+  const playlistsByUser = await Playlist.find({ owner: userId });
+
+  return res.status(200).json(playlistsByUser);
+
 };
 
 const addSongToPlaylist = async (req, res) => {
@@ -78,7 +90,7 @@ const removeSongFromPlaylist = async (req, res) => {
 export {
   createPlaylist,
   getPlaylistById,
-  getAllPlaylists,
+  getAllPlaylistsMadeByUser,
   removeSongFromPlaylist,
   addSongToPlaylist,
 };
