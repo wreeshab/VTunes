@@ -1,5 +1,4 @@
-import Song from "../models/Song.jsconst songId = req.params.id;
-    const userId = req.userID.id;";
+import Song from "../models/Song.js"
 
 const likeSong = async (req, res) => {
   try {
