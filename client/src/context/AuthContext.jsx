@@ -10,13 +10,20 @@ const AuthProvider = ({ Children }) => {
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
+  useEffect(()=>{
+    const user = localStorage.getItem("user");
+    if(user){
+      setUser(JSON.parse(user));
+    }
+    
 
+  },[])
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       //other api logic goes here
       setIsAuthenticated(true);
-      setUser({ token });
+      // setUser({ token });
       setLoading(false);
     } else {
       setLoading(false);
@@ -33,11 +40,12 @@ const AuthProvider = ({ Children }) => {
 
   const login = (userData) => {
     setIsAuthenticated(true);
-    setUser(userData);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login,loading }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, login, loading, setUser }}
+    >
       {Children}
     </AuthContext.Provider>
   );

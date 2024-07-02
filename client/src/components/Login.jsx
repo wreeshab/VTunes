@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
 const Login = ({ setCurrState }) => {
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -12,6 +13,7 @@ const Login = ({ setCurrState }) => {
         success: false,
         message: '',
     });
+    const {setUser} = useContext(AuthContext)
 
     const {login} = useContext(AuthContext)
 
@@ -32,6 +34,8 @@ const Login = ({ setCurrState }) => {
 
             console.log(response.data.message);
             if (response.data.success) {
+                setUser(response.data.user)
+                localStorage.setItem('user', JSON.stringify(response.data.user));
                 const token = response.data.token;
                 localStorage.setItem('token', token);
                 login({token})

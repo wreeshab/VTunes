@@ -14,6 +14,7 @@ const Register = ({ setCurrState }) => {
     message: '',
   });
   const {login} = useContext(AuthContext)
+  const { setUser } = useContext(AuthContext);
 
 
   const { name, email, password } = formData;
@@ -30,6 +31,8 @@ const Register = ({ setCurrState }) => {
 
       if (response.data.success) {
         const token = response.data.token;
+        setUser(response.data.user)
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         localStorage.setItem('token', token);
         navigate('/dashboard');
         

@@ -17,7 +17,7 @@ import { HiOutlineQueueList } from "react-icons/hi2";
 
 const TrackBar = () => {
   return (
-    <div className="h-[10%] border-t-2 border-black  bg-lime-200 flex justify-between items-center text-black px-4 ">
+    <div className="pt-2 h-[10%] border-t-2 border-black  bg-lime-200 flex justify-between items-center text-black px-4 ">
       <div className="hidden lg:flex items-center gap-5 ">
         <img
           src="./images/deltaLogoGreen.png"
