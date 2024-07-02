@@ -16,13 +16,14 @@ const DisplayHome = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        console.log(response.data);
-        console.log(response.data.songs);
-        setSongs(response.data.songs);
+        console.log(response.data); // Logging response data
+        console.log(response.data.songs); // Logging songs data
+        setSongs(response.data.songs); // Setting songs state
       } catch (error) {
-        console.error("Error fetching songs:", error);
+        console.error("Error fetching songs:", error); // Error handling
       }
     };
+
     const fetchPlaylists = async () => {
       try {
         const response = await axios.get(`${url}/playlist`, {
@@ -30,40 +31,30 @@ const DisplayHome = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        console.log(response.data);
-        console.log(response.data);
-        setPlaylists(response.data);
+        console.log(response.data); // Logging response data
+        setPlaylists(response.data); // Setting playlists state
       } catch (error) {
-        console.error("Error fetching playlists:", error);
+        console.error("Error fetching playlists:", error); // Error handling
       }
     };
 
     fetchSongs();
     fetchPlaylists();
   }, []);
+
   return (
     <div>
       <Navbar />
       <div className="mb-4">
-        <h1 className="font-bold text-2xl text-center">New Songs</h1>
-        <div className="my-5 font-bold text-2xl flex overflow-auto gap-2">
+        <h1 className="font-bold text-2xl text-center ">New Songs</h1>
+        <div className="my-5 font-bold text-2xl flex overflow-auto gap-2 ">
           {songs.map((item, index) => (
             <MusicCardSquare
               key={index}
               name={item.name}
               image={item.thumbnailUrl}
               id={item._id}
-            />
-          ))}
-        </div>
-        <h1 className="font-bold text-2xl text-center">Your Playlists</h1>
-        <div className="my-5 font-bold text-2xl flex overflow-auto gap-2">
-          {playlists.map((item, index) => (
-            <CardSquare
-              key={index}
-              name={item.name}
-              image={item.thumbnail}
-              id={item._id}
+              audioUrl={item.audioUrl}
             />
           ))}
         </div>
