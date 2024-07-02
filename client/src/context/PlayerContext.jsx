@@ -41,6 +41,11 @@ const PlayerContextProvider = ({ children }) => {
           seconds: duration % 60,
         },
       });
+
+      if (seekBar.current && audioRef.current.duration) {
+        const progressPercent = (audioRef.current.currentTime / audioRef.current.duration) * 100;
+        seekBar.current.style.width = `${progressPercent}%`;
+      }
     };
 
     if (audioRef.current) {
@@ -77,11 +82,17 @@ const PlayerContextProvider = ({ children }) => {
       play(); // Play the audio
     }, 0);
   };
-
+  const seek = (e) => {
+    const rect = seekBackground.current.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const seekTime = (offsetX / rect.width) * audioRef.current.duration;
+    audioRef.current.currentTime = seekTime;
+  };
   const contextValue = {
     audioRef,
     seekBackground,
     seekBar,
+    seek,
     track,
     setTrackAndPlay, // Use the new function in the context value
     playerStatus,

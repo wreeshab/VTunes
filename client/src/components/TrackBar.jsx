@@ -11,7 +11,7 @@ import { HiOutlineQueueList } from "react-icons/hi2";
 import { PlayerContext } from "../context/PlayerContext";
 
 const TrackBar = () => {
-  const { seekBar, seekBackground, playerStatus, pause, play, songDetails, time } =
+  const { seekBar, seekBackground, playerStatus, pause, play, songDetails, time,seek } =
     useContext(PlayerContext);
 
   return (
@@ -44,10 +44,12 @@ const TrackBar = () => {
           <div
             ref={seekBackground}
             className="w-[60vw] max-w-[500px] bg-white rounded-full cursor-pointer"
+            onClick={seek}
           >
             <hr
               ref={seekBar}
-              className="h-1 border-none w-10 bg-green-700 rounded-full"
+              className="h-1 border-none bg-green-700 rounded-full"
+              style={{ width: "0%" }}
             />
           </div>
           {/* Displaying duration */}
