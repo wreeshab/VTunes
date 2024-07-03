@@ -4,7 +4,7 @@ import uploadToCloudinary from "../utils/cloudinary.js";
 
 
 const getAllSongsGlobal = async (req, res) => {
-  const songs = await Song.find();
+  const songs = await Song.find().populate("artist", "name");
   return res.status(200).json({ songs });
 };
 
