@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import SearchCard from "./SearchCard";
+import { url } from "../data/backenUrl";
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
@@ -15,16 +16,15 @@ const SearchPage = () => {
     }
 
     const fetchResults = async () => {
-      console.log("hello");
       try {
-        const response = await axios.get("http://localhost:5000/api/search", {
+        const response = await axios.get(`${url}/search`, {
           params: { query, type },
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
         setResults(response.data.results);
-        console.log(response.data);
+        console.log("results- ", response.data.results);
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
