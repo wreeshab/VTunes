@@ -7,11 +7,10 @@ import { FaUserFriends } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 
-
 const Sidebar = () => {
   const navigate = useNavigate();
   return (
-    <div className="w-[25%] h-full p-2 text-xl  flex-col gap-3 text-black hidden bg-lime-200 lg:flex ">
+    <div className="w-[25%] h-full p-2 text-xl  flex-col gap-3  hidden bg-teal-700 text-white lg:flex ">
       <div className=" h-[15%] rounded flex flex-col justify-around">
         <div
           className="flex items-center cursor-pointer gap-3 pl-8"
@@ -20,7 +19,12 @@ const Sidebar = () => {
           <FaHome />
           <p className="font-semibold">Dashboard</p>
         </div>
-        <div className="flex items-center cursor-pointer gap-3 pl-8">
+        <div
+          onClick={() => {
+            navigate("/dashboard/search");
+          }}
+          className="flex items-center cursor-pointer gap-3 pl-8"
+        >
           <FaMagnifyingGlass />
           <p className="font-semibold">Search</p>
         </div>

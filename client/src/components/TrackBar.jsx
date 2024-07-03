@@ -11,16 +11,21 @@ import { HiOutlineQueueList } from "react-icons/hi2";
 import { PlayerContext } from "../context/PlayerContext";
 
 const TrackBar = () => {
-  const { seekBar, seekBackground, playerStatus, pause, play, songDetails, time,seek } =
-    useContext(PlayerContext);
+  const {
+    seekBar,
+    seekBackground,
+    playerStatus,
+    pause,
+    play,
+    songDetails,
+    time,
+    seek,
+  } = useContext(PlayerContext);
 
   return (
-    <div className="pt-2 h-[10%] border-t-2 border-black  bg-lime-200 flex justify-between items-center text-black px-4 ">
+    <div className="pt-2 h-[10%] border-t-2 border-black  bg-teal-500 text-white flex justify-between items-center px-4 ">
       <div className="hidden lg:flex items-center gap-5 ">
-        <img
-          src={songDetails.image}
-          className="h-[50px] w-[50px] bg-black"
-        />
+        <img src={songDetails.image} className="h-[50px] w-[50px] bg-black" />
         <div>
           <p className="font-bold text-xl">{songDetails.name}</p>
           <p>{songDetails.artist}</p>
@@ -40,7 +45,9 @@ const TrackBar = () => {
         </div>
         <div className="flex items-center gap-5">
           {/* Displaying current time */}
-          <p>{`${time.currentTime.minutes}:${time.currentTime.seconds.toString().padStart(2, "0")}`}</p>
+          <p>{`${time.currentTime.minutes}:${time.currentTime.seconds
+            .toString()
+            .padStart(2, "0")}`}</p>
           <div
             ref={seekBackground}
             className="w-[60vw] max-w-[500px] bg-white rounded-full cursor-pointer"
@@ -53,7 +60,9 @@ const TrackBar = () => {
             />
           </div>
           {/* Displaying duration */}
-          <p>{`${time.duration.minutes}:${time.duration.seconds.toString().padStart(2, "0")}`}</p>
+          <p>{`${time.duration.minutes}:${time.duration.seconds
+            .toString()
+            .padStart(2, "0")}`}</p>
         </div>
       </div>
       <div className="hidden lg:flex items-center gap-4 opacity-80 mr-10">
