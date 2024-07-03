@@ -1,6 +1,6 @@
-import Artist from "../models/Artist.js";
-import Song from "../models/Song.js";
-import User from "../models/User.js";
+import Artist from "../../models/Artist.js";
+import Song from "../../models/Song.js";
+import User from "../../models/User.js";
 
 const search = async (req, res) => {
   const { query, type } = req.query;
