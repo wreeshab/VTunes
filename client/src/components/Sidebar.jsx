@@ -5,7 +5,7 @@ import { BiSolidPlaylist } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa6";
 import { FaUserFriends } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Sidebar = () => {
             <p className="font-semibold">Your Friends</p>
           </div>
         </div>
-        <div className="p-4 flex items-center justify-between mt-5 ">
+        <div className="p-4 flex items-center justify-between mt-5 cursor-pointer " onClick={()=>navigate("/dashboard/liked-songs")}>
           <div className="flex items-center gap-3">
             <FcLike />
             <p className="font-semibold">Liked Songs</p>

@@ -43,9 +43,9 @@ const DisplayHome = () => {
   }, []);
 
   return (
-    <div>
+    <div className="px-7 pt-4">
       <Navbar />
-      <div className="mb-4">
+      <div className="mb-4 ">
         <h1 className="font-bold text-2xl text-center ">New Songs</h1>
         <div className="my-5 font-bold text-2xl flex overflow-auto gap-2 ">
           {songs.map((item, index) => (

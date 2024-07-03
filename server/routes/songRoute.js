@@ -10,6 +10,7 @@ import getAllSongsByAnArtistForUser from "../controllers/song controller/getAllS
 import getSongByName from "../controllers/song controller/getSongByNameController.js";
 import dislikeSong from "../controllers/likeDislikeControllers/disLikeController.js";
 import likeSong from "../controllers/likeDislikeControllers/likeController.js";
+import getAllLikedSongs from "../controllers/likeDislikeControllers/getAllLikedSongs.js";
 
 const songRouter = express.Router();
 
@@ -48,5 +49,8 @@ songRouter.post("/dislike/:id", userAuthMiddleware, dislikeSong);
 
 // get song by name
 songRouter.get("/song-by-name/:songName", userAuthMiddleware, getSongByName);
+
+//get all liked songs
+songRouter.get("/liked-songs", userAuthMiddleware, getAllLikedSongs)
 
 export default songRouter;
