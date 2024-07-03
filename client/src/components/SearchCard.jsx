@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
-import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from 'react-icons/bi';
-import { FaUserFriends, FaPlus } from 'react-icons/fa';
-import { likeSong, dislikeSong } from '../helpers/LikeDislike'; // Ensure the path is correct
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useContext, useState } from "react";
+import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from "react-icons/bi";
+import { FaUserFriends, FaPlus } from "react-icons/fa";
+import { likeSong, dislikeSong } from "../helpers/LikeDislike"; // Ensure the path is correct
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { PlayerContext } from "../context/PlayerContext";
+
 
 const SearchCard = ({ type, object }) => {
-  const user = JSON.parse(localStorage.getItem('user')); // Retrieve user from local storage
+  const user = JSON.parse(localStorage.getItem("user")); // Retrieve user from local storage
   const userId = user.id;
   const [likes, setLikes] = useState(object.likes);
   const [dislikes, setDislikes] = useState(object.dislikes);
+  //ref part for song..
+  const { setTrackAndPlay } = useContext(PlayerContext);
 
   const handleLike = async () => {
     const result = await likeSong(object._id);
@@ -45,7 +49,7 @@ const SearchCard = ({ type, object }) => {
     }
   };
 
-  if (type === 'artists') {
+  if (type === "artists") {
     return (
       <div className="w-[80%] bg-teal-800 text-white flex items-center justify-between p-4 rounded-md my-2">
         <div className="flex items-center gap-3">
@@ -57,7 +61,7 @@ const SearchCard = ({ type, object }) => {
         <button>Follow</button>
       </div>
     );
-  } else if (type === 'users') {
+  } else if (type === "users") {
     return (
       <div className="w-[80%] bg-teal-800 text-white flex items-center justify-between p-4 rounded-md my-2">
         <div className="flex items-center gap-3">
@@ -72,32 +76,46 @@ const SearchCard = ({ type, object }) => {
         </div>
       </div>
     );
-  } else if (type === 'music') {
+  } else if (type === "music") {
     return (
-
-      <div className="w-[80%] bg-teal-800 text-white flex items-center justify-between p-4 rounded-md my-2">
+      <div
+        className="w-[80%] bg-teal-800 text-white flex items-center justify-between p-4 rounded-md my-2"
+        onClick={() => {
+          setTrackAndPlay(object.audioUrl, {
+            name: object.name,
+            artist: object.artist.name,
+            image: object.thumbnailUrl,
+          });
+        }}
+      >
         <div className="flex gap-3">
           <div className="flex items-center gap-3">
-            <img src={object.thumbnailUrl} className="w-10 h-10 rounded-2xl" alt="" />
+            <img
+              src={object.thumbnailUrl}
+              className="w-10 h-10 rounded-2xl"
+              alt=""
+            />
           </div>
           <div>
-          <ToastContainer />
+            <ToastContainer />
             <p className="font-semibold">{object.name}</p>
             <p className="text-xs">{object.artist.name}</p>
           </div>
         </div>
         <div className="flex text-xl items-center gap-5">
-          <div className="flex items-center justify-center gap-1" onClick={handleLike}>
+          <div
+            className="flex items-center justify-center gap-1"
+            onClick={handleLike}
+          >
             <p className="font-semibold text-xm">{likes?.length}</p>
             {likes?.includes(userId) ? <BiSolidLike /> : <BiLike />}
           </div>
-          <div className="flex items-center justify-center gap-1" onClick={handleDislike}>
+          <div
+            className="flex items-center justify-center gap-1"
+            onClick={handleDislike}
+          >
             <p className="font-semibold text-xm">{dislikes?.length}</p>
-            {dislikes?.includes(userId) ? (
-              <BiSolidDislike />
-            ) : (
-              <BiDislike />
-            )}
+            {dislikes?.includes(userId) ? <BiSolidDislike /> : <BiDislike />}
           </div>
         </div>
       </div>
