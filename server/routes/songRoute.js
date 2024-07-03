@@ -1,18 +1,15 @@
 import express from "express";
 import artistAuthMiddleware from "../middleware/artistAuthMiddleware.js";
-import {
-  createSong,
-  getAllSongsByAnArtistForUser,
-  getAllSongsForArtist,
-  getSongByName,
-  getAllSongsGlobal
-} from "../controllers/songController.js";
 import userAuthMiddleware from "../middleware/userAuthMiddleware.js";
 import upload from "../middleware/multerMiddleware.js";
-import {
-  dislikeSong,
-  likeSong,
-} from "../controllers/likesDislikesController.js";
+
+import createSong from "../controllers/song controller/createSongController.js";
+import getAllSongsGlobal from "../controllers/song controller/getAllSongsGlobalController.js";
+import getAllSongsForArtist from "../controllers/song controller/getAllSongsForArtistController.js";
+import getAllSongsByAnArtistForUser from "../controllers/song controller/getAllSongsByAnArtistForUserController.js";
+import getSongByName from "../controllers/song controller/getSongByNameController.js";
+import dislikeSong from "../controllers/likeDislikeControllers/disLikeController.js";
+import likeSong from "../controllers/likeDislikeControllers/likeController.js";
 
 const songRouter = express.Router();
 
@@ -27,7 +24,7 @@ songRouter.post(
   createSong
 );
 
-songRouter.get("/",userAuthMiddleware,getAllSongsGlobal)
+songRouter.get("/", userAuthMiddleware, getAllSongsGlobal);
 
 //get all songs for artist portal
 songRouter.get(
@@ -51,4 +48,5 @@ songRouter.post("/dislike/:id", userAuthMiddleware, dislikeSong);
 
 // get song by name
 songRouter.get("/song-by-name/:songName", userAuthMiddleware, getSongByName);
+
 export default songRouter;
