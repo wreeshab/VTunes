@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {ToastContainer, toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const RightHalf = () => {
   const [trackName, setTrackName] = React.useState("");
   const [thumbnailImage, setThumbnailImage] = React.useState(null);
   const [trackFile, setTrackFile] = useState(null);
-  const [responseMessage, setResponseMessage] = useState("");
+ 
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -34,20 +37,22 @@ const RightHalf = () => {
           },
         }
       );
-      setResponseMessage(response.data.message);
+      toast.success(response.data.message);
+    
       setIsLoading(false);
       setTrackName("");
       setThumbnailImage(null);
       setTrackFile(null);
     } catch (error) {
       console.error(error);
-      setResponseMessage(error?.response?.data?.message || "An error occurred.");
+      toast.error(error?.response?.data?.message || "An error occurred.");
       setIsLoading(false);
     }
   };
 
   return (
     <div className="w-[50%] flex flex-col items-center justify-center p-6 bg-black rounded-lg shadow-md">
+      <ToastContainer />
       <h1 className="font-bold text-4xl text-white mb-8">
         Upload Your Next Track
       </h1>
@@ -95,9 +100,7 @@ const RightHalf = () => {
           />
         </div>
         {isLoading && <p className="text-white text-center font-semibold ">Uploading... Do not refresh the page</p>}
-        {responseMessage && (
-          <p className="text-green-500 text-center">{responseMessage}</p>
-        )}
+        
         <button
           type="submit"
           className="w-full bg-white text-black py-3 rounded-full hover:bg-gray-200 transition duration-300 font-bold"
