@@ -1,8 +1,6 @@
 import express from "express";
-import {
-  loginArtist,
-  registerArtist,
-} from "../controllers/artistAuthController.js";
+import loginArtist from "../controllers/Artist Auth/loginArtistController.js";
+import registerArtist from "../controllers/Artist Auth/registerArtistController.js";
 
 const artistAuthRouter = express.Router();
 

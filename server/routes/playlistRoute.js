@@ -1,12 +1,12 @@
 import express from "express";
 import userAuthMiddleware from "../middleware/userAuthMiddleware.js";
-import {
-  addSongToPlaylist,
-  createPlaylist,
-  getAllPlaylistsMadeByUser,
-  getPlaylistById,
-  removeSongFromPlaylist,
-} from "../controllers/playlistController.js";
+
+import createPlaylist from "../controllers/playlist controllers/createPlaylistController.js";
+import getPlaylistById from "../controllers/playlist controllers/getPlaylistByIdController.js";
+import getAllPlaylistsMadeByUser from "../controllers/playlist controllers/getAllPlaylistsMadeByUserController.js";
+import removeSongFromPlaylist from "../controllers/playlist controllers/removeSongFromPlaylistController.js";
+import addSongToPlaylist from "../controllers/playlist controllers/addSongToPlaylistController.js";
+
 const playlistRouter = express.Router();
 
 //create playlist
