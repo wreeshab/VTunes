@@ -18,6 +18,26 @@ const uploadToCloudinary = async (filePath) => {
       console.log("No file path provided");
       return null;
     }
+    const fileType = filePath.split('.').pop().toLowerCase();
+    const isImage = ["jpg", "jpeg", "png", "gif", "bmp"].includes(fileType);
+
+    let options = {
+      resource_type: "auto",
+    };
+    if(isImage){
+      options = {
+        ...options,
+        transformation:[
+          {
+            width: 800,
+            height: 800,
+            crop: "fill",
+            gravity:"center"
+          }
+        ]
+      }
+    }
+
     const result = await cloudinary.uploader.upload(filePath, {
       resource_type: "auto",
     });
