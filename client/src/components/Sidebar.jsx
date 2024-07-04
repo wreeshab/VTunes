@@ -47,7 +47,7 @@ const Sidebar = () => {
           </div>
         </div>
         <div className="p-4 flex items-center justify-between mt-5">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3" onClick={() => navigate("/dashboard/all-playlists")}>
             <BiSolidPlaylist />
             <p className="font-semibold">Your Playlists</p>
           </div>

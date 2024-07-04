@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { PlayerContext } from "../context/PlayerContext";
 
-const LikedSongCard = ({ song,removeFromLikedPage, setLikedSongs }) => {
+const LikedSongCard = ({ song, removeFromLikedPage, setLikedSongs }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user.id;
   const [likes, setLikes] = useState(song.likes);
@@ -41,7 +41,6 @@ const LikedSongCard = ({ song,removeFromLikedPage, setLikedSongs }) => {
         setLikes(likes.filter((id) => id !== userId));
         removeFromLikedPage(song._id);
         toast.success("Song disliked", { autoClose: 500 });
-
       }
     } else {
       console.error(result.message);
@@ -51,7 +50,7 @@ const LikedSongCard = ({ song,removeFromLikedPage, setLikedSongs }) => {
 
   return (
     <div
-      className="w-[60%] bg-gradient-to-l from-red-300 to-red-600 text-white flex items-center justify-between p-4 rounded-xl my-2 cursor-pointer"
+      className="w-full  md:w-[60%]  bg-gradient-to-l from-red-300 to-red-600 text-white flex items-center justify-between p-4 rounded-xl my-2 cursor-pointer transition transform hover:scale-105"
       onClick={() => {
         setTrackAndPlay(song.audioUrl, {
           name: song.name,

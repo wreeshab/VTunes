@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import Sidebar from '../components/Sidebar';
 import TrackBar from '../components/TrackBar';
-import MainDisplay from '../components/MainDisplay';
 import { PlayerContext } from '../context/PlayerContext';
+import MainDisplay from '../components/basic/MainDisplay';
 
 const Dashboard = () => {
   const { audioRef, track } = useContext(PlayerContext);

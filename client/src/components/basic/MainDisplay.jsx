@@ -1,9 +1,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import DisplayHome from "./DisplayHome";
-import SearchPage from "./SearchPage";
-import LikedSongsPage from "./LikedSongsPage";
-import CreatePlaylistPage from "./CreatePlaylistPage";
+import DisplayHome from "../DisplayHome";
+import SearchPage from "../SearchPage";
+import LikedSongsPage from "../LikedSongsPage";
+import CreatePlaylistPage from "../CreatePlaylistPage";
+import AllPlaylistsPage from "../AllPlaylistsPage";
+
 
 const MainDisplay = () => {
   return (
@@ -13,6 +15,7 @@ const MainDisplay = () => {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/liked-songs" element={<LikedSongsPage />} />
         <Route path="/create-playlist" element={<CreatePlaylistPage />} />
+        <Route path = "/all-playlists" element = {<AllPlaylistsPage/>}/>
 
         <Route path="/contact" element={"hello"} />
       </Routes>
