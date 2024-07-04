@@ -37,7 +37,10 @@ const Sidebar = () => {
             <p className="font-semibold">Your Friends</p>
           </div>
         </div>
-        <div className="p-4 flex items-center justify-between mt-5 cursor-pointer " onClick={()=>navigate("/dashboard/liked-songs")}>
+        <div
+          className="p-4 flex items-center justify-between mt-5 cursor-pointer "
+          onClick={() => navigate("/dashboard/liked-songs")}
+        >
           <div className="flex items-center gap-3">
             <FcLike />
             <p className="font-semibold">Liked Songs</p>
@@ -49,7 +52,10 @@ const Sidebar = () => {
             <p className="font-semibold">Your Playlists</p>
           </div>
           <div className="flex items-center gap-3 mr-2 relative ">
-            <FaPlus />
+            <FaPlus
+              className="cursor-pointer"
+              onClick={() => navigate("/dashboard/create-playlist")}
+            />
           </div>
         </div>
       </div>
