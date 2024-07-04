@@ -1,17 +1,21 @@
 import React, { useContext, useState } from "react";
 import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from "react-icons/bi";
 import { FaUserFriends, FaPlus } from "react-icons/fa";
-import { likeSong, dislikeSong } from "../helpers/LikeDislike"; // Ensure the path is correct
+import { likeSong, dislikeSong } from "../helpers/LikeDislike";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { PlayerContext } from "../context/PlayerContext";
-
+import { BsThreeDotsVertical } from "react-icons/bs";
+import axios from "axios";
+import { url } from "../data/backenUrl";
 
 const SearchCard = ({ type, object }) => {
-  const user = JSON.parse(localStorage.getItem("user")); // Retrieve user from local storage
+  const user = JSON.parse(localStorage.getItem("user"));
   const userId = user.id;
   const [likes, setLikes] = useState(object.likes);
   const [dislikes, setDislikes] = useState(object.dislikes);
+  const [playlists, setPlaylists] = useState([]);
+  const [showPlaylistTab, setShowPlaylistTab] = useState(false);
   //ref part for song..
   const { setTrackAndPlay } = useContext(PlayerContext);
 
@@ -46,6 +50,52 @@ const SearchCard = ({ type, object }) => {
     } else {
       console.error(result.message);
       toast.error("Error disliking the song", { autoClose: 500 });
+    }
+  };
+
+  const fetchPlaylists = async () => {
+    try {
+      const response = await axios.get(`${url}/playlist`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.status === 200) {
+        console.log(response.data);
+        setPlaylists(response.data);
+      } else {
+        console.error("Failed to fetch playlists");
+      }
+    } catch (error) {
+      console.error("Error fetching playlists:", error);
+    }
+  };
+  const handleThreeDotsClick = async () => {
+    await fetchPlaylists();
+    setShowPlaylistTab(true);
+  };
+
+  const addToPlaylist = async (playlistId) => {
+    try {
+      const response = await axios.post(
+        `${url}/playlist/${playlistId}/add-song`,
+        { songId: object._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        toast.success("Song added to playlist", { autoClose: 500 });
+        setShowPlaylistTab(false);
+      } else {
+        toast.error("Failed to add song to playlist", { autoClose: 500 });
+      }
+    } catch (error) {
+      console.error("Error adding song to playlist:", error);
+      toast.error(error.response.data.message, { autoClose: 500 });
     }
   };
 
@@ -103,21 +153,60 @@ const SearchCard = ({ type, object }) => {
           </div>
         </div>
         <div className="flex text-xl items-center gap-5">
-          <div
-            className="flex items-center justify-center gap-1"
-            onClick={handleLike}
-          >
-            <p className="font-semibold text-xm">{likes?.length}</p>
-            {likes?.includes(userId) ? <BiSolidLike /> : <BiLike />}
+          <div className="flex text-xl items-center gap-5">
+            <div
+              className="flex items-center justify-center gap-1"
+              onClick={handleLike}
+            >
+              <p className="font-semibold text-xm">{likes?.length}</p>
+              {likes?.includes(userId) ? <BiSolidLike /> : <BiLike />}
+            </div>
+            <div
+              className="flex items-center justify-center gap-1"
+              onClick={handleDislike}
+            >
+              <p className="font-semibold text-xm">{dislikes?.length}</p>
+              {dislikes?.includes(userId) ? <BiSolidDislike /> : <BiDislike />}
+            </div>
           </div>
-          <div
-            className="flex items-center justify-center gap-1"
-            onClick={handleDislike}
-          >
-            <p className="font-semibold text-xm">{dislikes?.length}</p>
-            {dislikes?.includes(userId) ? <BiSolidDislike /> : <BiDislike />}
-          </div>
+          <BsThreeDotsVertical
+            onClick={(e) => {
+              e.stopPropagation();
+              handleThreeDotsClick();
+            }}
+          />
         </div>
+        {showPlaylistTab && (
+  <div
+    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    onClick={() => setShowPlaylistTab(false)}
+  >
+    <div
+      className="bg-white p-5 rounded-md w-full max-w-md mx-4 sm:mx-6 md:mx-auto text-gray-700"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h2 className="text-xl font-bold mb-4 text-center">Add to Playlist</h2>
+      <ul className="max-h-60 overflow-y-auto">
+        {playlists.map((playlist) => (
+          <li
+            key={playlist._id}
+            className="cursor-pointer p-2 hover:bg-gray-200 rounded text-center font-semibold"
+            onClick={() => addToPlaylist(playlist._id)}
+          >
+            {playlist.name}
+          </li>
+        ))}
+      </ul>
+      <button
+        className="mt-4 bg-red-500 text-white py-2 px-4 rounded w-full"
+        onClick={() => setShowPlaylistTab(false)}
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
       </div>
     );
   }
