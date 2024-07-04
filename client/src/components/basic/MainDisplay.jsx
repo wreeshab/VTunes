@@ -5,7 +5,7 @@ import SearchPage from "../SearchPage";
 import LikedSongsPage from "../LikedSongsPage";
 import CreatePlaylistPage from "../CreatePlaylistPage";
 import AllPlaylistsPage from "../AllPlaylistsPage";
-
+import SpecificPlaylistPage from "../SpecificPlaylistPage";
 
 const MainDisplay = () => {
   return (
@@ -15,7 +15,8 @@ const MainDisplay = () => {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/liked-songs" element={<LikedSongsPage />} />
         <Route path="/create-playlist" element={<CreatePlaylistPage />} />
-        <Route path = "/all-playlists" element = {<AllPlaylistsPage/>}/>
+        <Route path="/all-playlists" element={<AllPlaylistsPage />} />
+        <Route path="/playlist/:id" element={<SpecificPlaylistPage />} />
 
         <Route path="/contact" element={"hello"} />
       </Routes>
