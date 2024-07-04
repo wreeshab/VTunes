@@ -19,8 +19,8 @@ const createSong = async (req, res) => {
 
     const thumbnailResponse = await uploadToCloudinary(thumbnailFile.path);
     const audioResponse = await uploadToCloudinary(audioFile.path);
-    console.log("thumbnailResponse", thumbnailResponse);
-    console.log("audioResponse", audioResponse);
+    // console.log("thumbnailResponse", thumbnailResponse);
+    // console.log("audioResponse", audioResponse);
     const newSong = new Song({
       name,
       thumbnailUrl: thumbnailResponse.secure_url,

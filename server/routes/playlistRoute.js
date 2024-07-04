@@ -6,11 +6,17 @@ import getPlaylistById from "../controllers/playlist controllers/getPlaylistById
 import getAllPlaylistsMadeByUser from "../controllers/playlist controllers/getAllPlaylistsMadeByUserController.js";
 import removeSongFromPlaylist from "../controllers/playlist controllers/removeSongFromPlaylistController.js";
 import addSongToPlaylist from "../controllers/playlist controllers/addSongToPlaylistController.js";
+import upload from "../middleware/multerMiddleware.js";
 
 const playlistRouter = express.Router();
 
 //create playlist
-playlistRouter.post("/create", userAuthMiddleware, createPlaylist);
+playlistRouter.post(
+  "/create",
+  userAuthMiddleware,
+  upload.fields([{ name: "thumbnailImage", maxCount: 1 }]),
+  createPlaylist
+);
 
 //get all playlists
 playlistRouter.get("/", userAuthMiddleware, getAllPlaylistsMadeByUser);
