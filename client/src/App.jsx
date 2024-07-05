@@ -9,12 +9,11 @@ import PlayerContextProvider from "./context/PlayerContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const App = () => {
   const { isAuthenticated } = useContext(AuthContext);
   return (
     <div className="h-screen w-screen ">
-       <ToastContainer /> 
+      <ToastContainer />
       <Routes>
         <Route
           path="/auth"
@@ -23,15 +22,7 @@ const App = () => {
 
         <Route
           path="/dashboard/*"
-          element={
-            <ProtectedRoute
-              children={
-                <PlayerContextProvider>
-                  <Dashboard />
-                </PlayerContextProvider>
-              }
-            />
-          }
+          element={<ProtectedRoute children={<Dashboard />} />}
         />
         <Route
           path="/playlist"

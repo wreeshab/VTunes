@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext(null);
 
-const AuthProvider = ({ Children }) => {
+const AuthContextProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -51,9 +51,9 @@ const AuthProvider = ({ Children }) => {
     <AuthContext.Provider
       value={{ isAuthenticated, user, login, loading, setUser, logout }}
     >
-      {Children}
+      {children}
     </AuthContext.Provider>
   );
 };
-
-export { AuthContext, AuthProvider };
+export default AuthContextProvider;
+export { AuthContext };
