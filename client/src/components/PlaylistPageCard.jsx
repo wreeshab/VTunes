@@ -1,14 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-
-
 const PlaylistPageCard = ({ playlist }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-gradient-to-r w-full md:w-4/5 from-teal-500 to-teal-300 p-4 rounded-lg shadow-lg flex items-center gap-4 cursor-pointer transition transform hover:scale-105"
-    onClick={() => navigate(`/dashboard/playlist/${playlist._id}`)}
+    <div
+      className="bg-gradient-to-r w-full md:w-4/5 from-teal-500 to-teal-300 p-4 rounded-lg shadow-lg flex items-center gap-4 cursor-pointer transition transform "
+      onClick={() => navigate(`/dashboard/playlist/${playlist._id}`)}
     >
       <img
         src={playlist.thumbnail}
@@ -16,8 +15,12 @@ const PlaylistPageCard = ({ playlist }) => {
         className="w-16 h-16 rounded-md object-cover"
       />
       <div>
-        <h2 className="text-lg md:text-xl font-bold text-gray-800">{playlist.name}</h2>
-        <p className="text-sm md:text-base text-gray-600">Created by: {playlist.owner}</p>
+        <h2 className="text-lg md:text-xl font-bold text-gray-800">
+          {playlist.name}
+        </h2>
+        <p className="text-sm md:text-base text-gray-600">
+          Created by: {playlist.owner.name}
+        </p>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ const getPlaylistById = async (req, res) => {
   try {
     const playlistId = req.params.id;
 
-    const playlist = await Playlist.findById(playlistId);
+    const playlist = await Playlist.findById(playlistId).populate("owner","name");
     if (!playlist) {
       return res.status(404).json({ message: "Playlist not found." });
     }

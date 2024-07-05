@@ -44,14 +44,21 @@ const LikedSongsPage = () => {
         <div className="flex justify-between items-center pr-10">
           <div>
             <h1 className="text-5xl md:text-8xl font-extrabold">Liked</h1>
-            <p className="text-lg md:text-xl font-bold text-red-500">By {user.name}</p>
+            <p className="text-lg md:text-xl font-bold text-red-500">
+              By {user.name}
+            </p>
           </div>
           <FaHeart className="text-6xl md:text-9xl hidden md:block text-red-500" />
         </div>
       </div>
-      <div className="flex flex-col mt-10 items-center gap-3 overflow-y-scroll h-3/5 w-full">
+      <div className="flex flex-col mt-10 items-center overflow-y-scroll h-3/5 w-full">
         {likedSongs.map((song) => (
-          <LikedSongCard key={song._id} removeFromLikedPage={removeFromLikedPage} setLikedSongs={setLikedSongs} song={song} />
+          <LikedSongCard
+            key={song._id}
+            removeFromLikedPage={removeFromLikedPage}
+            setLikedSongs={setLikedSongs}
+            song={song}
+          />
         ))}
       </div>
     </div>

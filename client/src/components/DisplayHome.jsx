@@ -55,7 +55,7 @@ const DisplayHome = () => {
               image={item.thumbnailUrl}
               id={item._id}
               audioUrl={item.audioUrl}
-              artist = {item.artist}
+              artist={item.artist}
             />
           ))}
         </div>

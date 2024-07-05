@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { IoMdShuffle } from "react-icons/io";
 import { TbPlayerTrackPrevFilled } from "react-icons/tb";
 import { TbPlayerTrackNextFilled } from "react-icons/tb";
@@ -9,6 +9,7 @@ import { HiMiniSpeakerWave } from "react-icons/hi2";
 import { MdLyrics } from "react-icons/md";
 import { HiOutlineQueueList } from "react-icons/hi2";
 import { PlayerContext } from "../context/PlayerContext";
+import Queue from "./Queue";
 
 const TrackBar = () => {
   const {
@@ -21,6 +22,7 @@ const TrackBar = () => {
     time,
     seek,
   } = useContext(PlayerContext);
+  const [showQueue, setShowQueue] = useState(false);
 
   return (
     <div className="pt-2 h-[10%] border-t-2 border-black  bg-teal-500 text-white flex justify-between items-center px-4 ">
@@ -68,8 +70,12 @@ const TrackBar = () => {
       <div className="hidden lg:flex items-center gap-4 opacity-80 mr-10">
         <HiMiniSpeakerWave className="text-2xl" />
         <MdLyrics className="text-2xl" />
-        <HiOutlineQueueList className="text-2xl" />
+        <HiOutlineQueueList
+          className="text-2xl cursor-pointer"
+          onClick={() => setShowQueue(true)}
+        />
       </div>
+      {showQueue && <Queue closeQueue={() => setShowQueue(false)} />}
     </div>
   );
 };

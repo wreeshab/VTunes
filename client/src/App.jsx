@@ -6,11 +6,15 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthContext } from "./context/AuthContext";
 import PlayerContextProvider from "./context/PlayerContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const App = () => {
   const { isAuthenticated } = useContext(AuthContext);
   return (
     <div className="h-screen w-screen ">
+       <ToastContainer /> 
       <Routes>
         <Route
           path="/auth"

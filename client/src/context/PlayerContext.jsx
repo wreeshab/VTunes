@@ -24,8 +24,31 @@ const PlayerContextProvider = ({ children }) => {
     artist: "",
     image: "",
   });
+  const [queue, setQueue] = useState([]);
 
-  // Adding event listeners to update current time and duration
+  const addToQueue = (songs) => {
+    setQueue((prevQueue) => [...prevQueue, ...songs]);
+  };
+
+  useEffect(() => {
+    if (queue.length > 0 && (!track || track === "" || track === undefined)) {
+      setSongDetails({
+        name: queue[0].name,
+        artist: queue[0].artist.name,
+        image: queue[0].thumbnailUrl,
+      });
+      setTrackAndPlay(queue[0].audioUrl, {
+        name: queue[0].name,
+        artist: queue[0].artist.name,
+        image: queue[0].thumbnailUrl,
+      });
+    }
+  }, [queue]);
+
+  const clearQueue = () => {
+    setQueue([]);
+  };
+
   useEffect(() => {
     const updateCurrentTime = () => {
       const currentTime = Math.floor(audioRef.current.currentTime);
@@ -43,7 +66,8 @@ const PlayerContextProvider = ({ children }) => {
       });
 
       if (seekBar.current && audioRef.current.duration) {
-        const progressPercent = (audioRef.current.currentTime / audioRef.current.duration) * 100;
+        const progressPercent =
+          (audioRef.current.currentTime / audioRef.current.duration) * 100;
         seekBar.current.style.width = `${progressPercent}%`;
       }
     };
@@ -51,15 +75,20 @@ const PlayerContextProvider = ({ children }) => {
     if (audioRef.current) {
       audioRef.current.addEventListener("timeupdate", updateCurrentTime);
       audioRef.current.addEventListener("loadedmetadata", updateCurrentTime);
+      audioRef.current.addEventListener("ended", handleSongEnd);
     }
 
     return () => {
       if (audioRef.current) {
         audioRef.current.removeEventListener("timeupdate", updateCurrentTime);
-        audioRef.current.removeEventListener("loadedmetadata", updateCurrentTime);
+        audioRef.current.removeEventListener(
+          "loadedmetadata",
+          updateCurrentTime
+        );
+        audioRef.current.removeEventListener("ended", handleSongEnd);
       }
     };
-  }, [track]);
+  }, [track, queue]);
 
   // Play function to start the audio
   const play = () => {
@@ -82,19 +111,47 @@ const PlayerContextProvider = ({ children }) => {
       play(); // Play the audio
     }, 0);
   };
+
   const seek = (e) => {
     const rect = seekBackground.current.getBoundingClientRect();
     const offsetX = e.clientX - rect.left;
     const seekTime = (offsetX / rect.width) * audioRef.current.duration;
     audioRef.current.currentTime = seekTime;
   };
+
+  const handleSongEnd = () => {
+    if (queue.length > 0) {
+      // Remove the first song from the queue
+      const newQueue = queue.slice(1);
+      setQueue(newQueue);
+
+      // If there is a next song, play it
+      if (newQueue.length > 0) {
+        setSongDetails({
+          name: newQueue[0].name,
+          artist: newQueue[0].artist.name,
+          image: newQueue[0].thumbnailUrl,
+        });
+        setTrackAndPlay(newQueue[0].audioUrl, {
+          name: newQueue[0].name,
+          artist: newQueue[0].artist.name,
+          image: newQueue[0].thumbnailUrl,
+        });
+      } else {
+        // If the queue is empty, stop the player
+        setTrack(null);
+        setPlayerStatus(false);
+      }
+    }
+  };
+
   const contextValue = {
     audioRef,
     seekBackground,
     seekBar,
     seek,
     track,
-    setTrackAndPlay, // Use the new function in the context value
+    setTrackAndPlay,
     playerStatus,
     setPlayerStatus,
     time,
@@ -102,8 +159,13 @@ const PlayerContextProvider = ({ children }) => {
     play,
     pause,
     songDetails,
-    setSongDetails
+    setSongDetails,
+    queue,
+    setQueue,
+    addToQueue,
+    clearQueue,
   };
+
   return (
     <PlayerContext.Provider value={contextValue}>
       {children}

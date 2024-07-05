@@ -1,3 +1,4 @@
+//note dont use  toast not looking good
 import React, { useContext, useState } from "react";
 import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from "react-icons/bi";
 import { likeSong, dislikeSong } from "../helpers/LikeDislike";
@@ -50,7 +51,7 @@ const LikedSongCard = ({ song, removeFromLikedPage, setLikedSongs }) => {
 
   return (
     <div
-      className="w-full  md:w-[60%]  bg-gradient-to-l from-red-300 to-red-600 text-white flex items-center justify-between p-4 rounded-xl my-2 cursor-pointer transition transform hover:scale-105"
+      className="w-full  md:w-[60%]  bg-gradient-to-l from-red-300 to-red-600 text-white flex items-center justify-between p-4 rounded-xl my-2 cursor-pointer transition transform "
       onClick={() => {
         setTrackAndPlay(song.audioUrl, {
           name: song.name,
@@ -61,10 +62,13 @@ const LikedSongCard = ({ song, removeFromLikedPage, setLikedSongs }) => {
     >
       <div className="flex gap-3">
         <div className="flex items-center gap-3">
-          <img src={song.thumbnailUrl} className="w-10 h-10 rounded-2xl" alt="" />
+          <img
+            src={song.thumbnailUrl}
+            className="w-10 h-10 rounded-2xl"
+            alt=""
+          />
         </div>
         <div>
-          <ToastContainer />
           <p className="font-semibold">{song.name}</p>
           <p className="text-xs">{song.artist.name}</p>
         </div>
@@ -78,7 +82,11 @@ const LikedSongCard = ({ song, removeFromLikedPage, setLikedSongs }) => {
           }}
         >
           <p className="font-semibold text-xm">{likes?.length}</p>
-          {likes?.includes(userId) ? <BiSolidLike className="text-red-600" /> : <BiLike />}
+          {likes?.includes(userId) ? (
+            <BiSolidLike className="text-red-600" />
+          ) : (
+            <BiLike />
+          )}
         </div>
         <div
           className="flex items-center justify-center gap-1"
