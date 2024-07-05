@@ -6,6 +6,7 @@ import LikedSongsPage from "../LikedSongsPage";
 import CreatePlaylistPage from "../CreatePlaylistPage";
 import AllPlaylistsPage from "../AllPlaylistsPage";
 import SpecificPlaylistPage from "../SpecificPlaylistPage";
+import ProfilePage from "../ProfilePage";
 
 const MainDisplay = () => {
   return (
@@ -17,6 +18,7 @@ const MainDisplay = () => {
         <Route path="/create-playlist" element={<CreatePlaylistPage />} />
         <Route path="/all-playlists" element={<AllPlaylistsPage />} />
         <Route path="/playlist/:id" element={<SpecificPlaylistPage />} />
+        <Route path="/profile" element={<ProfilePage/>} />
 
         <Route path="/contact" element={"hello"} />
       </Routes>
