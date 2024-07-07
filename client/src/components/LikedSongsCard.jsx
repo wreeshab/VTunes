@@ -1,5 +1,5 @@
 //note dont use  toast not looking good
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from "react-icons/bi";
 import { likeSong, dislikeSong } from "../helpers/LikeDislike";
 import { toast, ToastContainer } from "react-toastify";
@@ -12,6 +12,11 @@ const LikedSongCard = ({ song, removeFromLikedPage, setLikedSongs }) => {
   const [likes, setLikes] = useState(song.likes);
   const [dislikes, setDislikes] = useState(song.dislikes);
   const { setTrackAndPlay } = useContext(PlayerContext);
+
+  // useEffect(()=>{
+  //   setLikes(song.likes.length)
+  //   setDislikes(song.dislikes.length)
+  // })
 
   const handleLike = async () => {
     const result = await likeSong(song._id);

@@ -2,7 +2,8 @@ import FriendRequest from "../../models/FriendRequest.js";
 import User from "../../models/User.js";
 
 const sendFriendRequest = async (req, res) => {
-  const { fromId, toId } = req.body;
+  const { toId } = req.body;
+  const fromId = req.userID.id;
   try {
     const existingRequest = await FriendRequest.findOne({
       from: fromId,

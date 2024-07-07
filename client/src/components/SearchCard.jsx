@@ -18,7 +18,7 @@ const SearchCard = ({ type, object }) => {
   const [showPlaylistTab, setShowPlaylistTab] = useState(false);
   //ref part for song..
   const { setTrackAndPlay, addToQueue, clearQueue } = useContext(PlayerContext);
-
+  // ---------------------------------- FOR MUSIC ----------------------------------
   const handleLike = async () => {
     const result = await likeSong(object._id);
     if (result.success) {
@@ -109,6 +109,8 @@ const SearchCard = ({ type, object }) => {
       image: object.thumbnailUrl,
     });
   };
+  //-------------------------------------FOR USER TYPE -------------------------------------------------
+  console.log(object);
 
   if (type === "artists") {
     return (
@@ -123,6 +125,11 @@ const SearchCard = ({ type, object }) => {
       </div>
     );
   } else if (type === "users") {
+    {
+      if (user.id === object._id) {
+        return;
+      }
+    }
     return (
       <div className="w-[80%] bg-teal-800 text-white flex items-center justify-between p-4 rounded-md my-2">
         <div className="flex items-center gap-3">
