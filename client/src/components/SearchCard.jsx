@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BiDislike, BiLike, BiSolidDislike, BiSolidLike } from "react-icons/bi";
 import { FaUserFriends, FaPlus } from "react-icons/fa";
 import { likeSong, dislikeSong } from "../helpers/LikeDislike";
@@ -18,6 +18,8 @@ const SearchCard = ({ type, object }) => {
   const [showPlaylistTab, setShowPlaylistTab] = useState(false);
   //ref part for song..
   const { setTrackAndPlay, addToQueue, clearQueue } = useContext(PlayerContext);
+
+  const [requestStatus, setRequestStatus] = useState();
   // ---------------------------------- FOR MUSIC ----------------------------------
   const handleLike = async () => {
     const result = await likeSong(object._id);
@@ -111,6 +113,44 @@ const SearchCard = ({ type, object }) => {
   };
   //-------------------------------------FOR USER TYPE -------------------------------------------------
   console.log(object);
+  useEffect(() => {
+    const fetchFriendReqStatus = async (req, res) => {
+      try {
+        const response = await axios.post(
+          `${url}/friend-request/friend-status`,
+          { toId: object._id },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        // console.log(response);
+        setRequestStatus(response.data.status);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchFriendReqStatus();
+  });
+
+  const handleSendFriendRequest = async () => {
+    try {
+      const response = await axios.post(
+        `${url}/friend-request/send`,
+        { toId: object._id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      setRequestStatus("pending");
+      // console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (type === "artists") {
     return (
@@ -125,11 +165,10 @@ const SearchCard = ({ type, object }) => {
       </div>
     );
   } else if (type === "users") {
-    {
-      if (user.id === object._id) {
-        return;
-      }
+    if (user.id === object._id) {
+      return;
     }
+
     return (
       <div className="w-[80%] bg-teal-800 text-white flex items-center justify-between p-4 rounded-md my-2">
         <div className="flex items-center gap-3">
@@ -139,8 +178,13 @@ const SearchCard = ({ type, object }) => {
           <p className="font-semibold">{object.name}</p>
         </div>
         <div>
-          <FaUserFriends />
-          <FaPlus />
+          {requestStatus === "none" ? (
+            <FaPlus onClick={handleSendFriendRequest} />
+          ) : requestStatus === "friends" ? (
+            <FaUserFriends />
+          ) : (
+            <p>Pending</p>
+          )}
         </div>
       </div>
     );

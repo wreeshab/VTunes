@@ -6,7 +6,7 @@ import { url } from "../data/backenUrl";
 
 const SearchPage = () => {
   const [query, setQuery] = useState("");
-  const [type, setType] = useState("music");
+  const [type, setType] = useState("users");
   const [results, setResults] = useState([]);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const SearchPage = () => {
             Artists
           </button>
         </div>
-        <div className="mt-8 items-center flex flex-col gap-5">
+        <div className="mt-8 items-center flex flex-col gap-2">
           {/* {results.map((result, index) => (
             <div key={index} className="p-4 bg-gray-800 rounded mb-4">
               {type === "users" && <p>User: {result.name}</p>}

@@ -10,6 +10,6 @@ const friendRequstRouter = express.Router();
 friendRequstRouter.post("/send", userAuthMiddleware, sendFriendRequest);
 friendRequstRouter.post("/accept", userAuthMiddleware, acceptFriendRequest);
 friendRequstRouter.post("/decline", userAuthMiddleware, declineFriendRequest);
-friendRequstRouter.get("/friend-status", userAuthMiddleware, getRequestStatus);
+friendRequstRouter.post("/friend-status", userAuthMiddleware, getRequestStatus);
 
 export default friendRequstRouter;
