@@ -145,8 +145,14 @@ const SearchCard = ({ type, object }) => {
           },
         }
       );
-      setRequestStatus("pending");
-      // console.log(response);
+      if (response.status === 200) {
+        setRequestStatus("pending");
+        toast.success("Friend request sent", { autoClose: 500 });
+      } else {
+        toast.error("Failed to send friend request", { autoClose: 500 });
+      }
+
+      console.log(response);
     } catch (err) {
       console.log(err);
     }
