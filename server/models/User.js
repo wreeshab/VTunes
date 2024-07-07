@@ -48,6 +48,10 @@ const userSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  dAuth: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = mongoose.model("User", userSchema);

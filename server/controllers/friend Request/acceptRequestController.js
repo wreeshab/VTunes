@@ -2,7 +2,7 @@ import FriendRequest from "../../models/FriendRequest.js";
 import User from "../../models/User.js";
 
 const acceptFriendRequest = async (req, res) => {
-  const {requestId} = req.body;
+  const { requestId } = req.body;
   const friendRequest = await FriendRequest.findById(requestId);
   if (!friendRequest) {
     return res.status(404).send("Friend request not found");
