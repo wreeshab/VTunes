@@ -11,7 +11,7 @@ cloudinary.config({
 });
 
 const uploadToCloudinary = async (filePath) => {
-  console.log("uploadToCloudinary");
+  // console.log("uploadToCloudinary");
   console.log(filePath);
   try {
     if (!filePath) {

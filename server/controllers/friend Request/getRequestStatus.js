@@ -5,8 +5,8 @@ const getRequestStatus = async (req, res) => {
   try {
     const { toId } = req.body;
     const fromId = req.userID.id;
-    console.log(fromId);
-    console.log(req.params);
+    // console.log(fromId);
+    // console.log(req.params);
 
     // checking if the users are already friends
     const user = await User.findById(fromId);
@@ -16,7 +16,7 @@ const getRequestStatus = async (req, res) => {
 
     // checking if there's a pending friend request be careful
     const request = await FriendRequest.findOne({ from: fromId, to: toId });
-    console.log(request);
+    // console.log(request);
     if (request) {
       return res.status(200).json({ status: request.status });
     }

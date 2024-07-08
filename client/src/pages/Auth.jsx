@@ -17,15 +17,15 @@ const Auth = () => {
 
   useEffect(() => {
     const handleMessage = async (event) => {
-      console.log("Received message:", event.data);
-      console.log("handleMessage");
-      console.log("event", event);
+      // console.log("Received message:", event.data);
+      // console.log("handleMessage");
+      // console.log("event", event);
       if (event.origin !== "http://localhost:5000") return;
 
       const { code } = event.data;
-      console.log("code", code);
+      // console.log("code", code);
       if (code) {
-        console.log("code", code);
+        // console.log("code", code);
         try {
           const response = await axios.get(
             "http://localhost:5000/api/auth/delta",

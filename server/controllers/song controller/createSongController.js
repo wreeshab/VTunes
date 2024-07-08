@@ -3,7 +3,7 @@ import Song from "../../models/Song.js";
 import uploadToCloudinary from "../../utils/cloudinary.js";
 
 const createSong = async (req, res) => {
-  // console.log(req);
+  console.log(req);
   const { name } = req.body;
   const thumbnailFile = req.files.thumbnailImage[0];
   const audioFile = req.files.trackFile[0];
@@ -11,11 +11,11 @@ const createSong = async (req, res) => {
   console.log(req.files, "req.files");
 
   if (!name || !thumbnailFile || !audioFile) {
-    console.log(name, thumbnailFile, audioFile);
+    // console.log(name, thumbnailFile, audioFile);
     return res.status(400).json({ message: "All fields are required!" });
   }
   try {
-    console.log(thumbnailFile, audioFile);
+    // console.log(thumbnailFile, audioFile);
 
     const thumbnailResponse = await uploadToCloudinary(thumbnailFile.path);
     const audioResponse = await uploadToCloudinary(audioFile.path);

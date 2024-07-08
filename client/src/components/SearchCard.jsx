@@ -112,7 +112,7 @@ const SearchCard = ({ type, object }) => {
     });
   };
   //-------------------------------------FOR USER TYPE -------------------------------------------------
-  console.log(object);
+  // console.log(object);
   useEffect(() => {
     const fetchFriendReqStatus = async (req, res) => {
       try {

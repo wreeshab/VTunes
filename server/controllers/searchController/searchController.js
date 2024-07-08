@@ -4,7 +4,7 @@ import User from "../../models/User.js";
 
 const search = async (req, res) => {
   const { query, type } = req.query;
-  console.log(query, type);
+  // console.log(query, type);
   if (!query || !type) {
     return res.status(400).json({ message: "Missing query or type" });
   }
@@ -23,7 +23,7 @@ const search = async (req, res) => {
 
         break;
       case "artists":
-        console.log("artists case");
+        // console.log("artists case");
         results = await Artist.find({ name: { $regex: query, $options: "i" } });
         break;
       default:

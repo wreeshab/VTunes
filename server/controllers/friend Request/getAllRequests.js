@@ -3,7 +3,7 @@ import FriendRequest from "../../models/FriendRequest.js";
 const getAllRequestsRecievedByUser = async (req, res) => {
   try {
     const toId = req.query.id; // Access 'id' from query parameters
-    console.log("toId:", toId);
+    // console.log("toId:", toId);
 
     // Fetch all friend requests where 'to' field matches 'toId'
     const requests = await FriendRequest.find({ to: toId })

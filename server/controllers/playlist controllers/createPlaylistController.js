@@ -12,13 +12,13 @@ const createPlaylist = async (req, res) => {
     return res.status(400).json({ message: "All fields are required!" });
   }
   try {
-    console.log("req.body", req.body, name);
+    // console.log("req.body", req.body, name);
     const existingPlaylist = await Playlist.findOne({ name });
     if (existingPlaylist) {
       return res.status(400).json({ message: "Playlist already exists!" });
     }
     const thumbnailResponse = await uploadToCloudinary(thumbnailFIle.path);
-    console.log("thumbnailresp", thumbnailResponse);
+    // console.log("thumbnailresp", thumbnailResponse);
 
     const newPlaylist = await Playlist.create({
       name,
