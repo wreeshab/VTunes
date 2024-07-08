@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./Navbar";
 import MusicCardSquare from "./MusicCardSquare";
 import axios from "axios";
+import Navbar from "../Navbar";
 
 const DisplayHome = () => {
   const [url, setUrl] = useState("http://localhost:5000/api");
@@ -20,7 +20,7 @@ const DisplayHome = () => {
         console.log(response.data.songs); // Logging songs data
         setSongs(response.data.songs); // Setting songs state
       } catch (error) {
-        console.error("Error fetching songs:", error); // Error handling
+        console.error("Error fetching songs:", error);
       }
     };
 

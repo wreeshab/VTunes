@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { AuthContext } from "../context/AuthContext";
-import { url } from "../data/backenUrl";
+import { AuthContext } from "../../context/AuthContext";
 import { FaPlayCircle } from "react-icons/fa";
-import { PlayerContext } from "../context/PlayerContext";
+import { PlayerContext } from "../../context/PlayerContext";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { url } from "../../data/backenUrl";
 
 const SpecificPlaylistPage = () => {
   const { id } = useParams();
@@ -50,7 +50,7 @@ const SpecificPlaylistPage = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="rounded  h-2/5 bg-gradient-to-t from-gray-100 to-lime-600 flex flex-col justify-end p-5">
+      <div className="rounded h-2/5 bg-gradient-to-t from-black to-lime-600 flex flex-col justify-end p-5">
         <div className="flex justify-between items-center pr-10">
           <div>
             <h1 className="text-5xl md:text-8xl text-white font-extrabold mb-2">
@@ -71,20 +71,22 @@ const SpecificPlaylistPage = () => {
           return (
             <div
               key={index}
-              className="bg-gradient-to-r w-full md:w-3/5 from-lime-500 to-gray-100 p-4 rounded-lg shadow-lg flex items-center gap-4 cursor-pointer transition transform justify-between "
+              className=" hover:text-white bg-white/10 w-full md:w-4/5 p-2 px-4 rounded-lg shadow-lg flex items-center gap-4 cursor-pointer transition transform backdrop-blur-lg hover:bg-white/30 justify-between"
             >
-              <div className="flex items-center gap-4">
+              <div className="flex items-center hover:text-white gap-4">
                 <img
                   src={song.thumbnailUrl}
                   alt=""
                   className="w-10 h-10 object-cover rounded-md"
                 />
                 <div>
-                  <p className="text-lg font-semibold">{song.name}</p>
-                  <p>{song.artist.name}</p>
+                  <p className="text-lg font-semibold text-gray-200 ">
+                    {song.name}
+                  </p>
+                  <p className="text-sm text-gray-300">{song.artist.name}</p>
                 </div>
               </div>
-              <BsThreeDotsVertical className="text-2xl text-gray-500" />
+              <BsThreeDotsVertical className="text-2xl text-gray-300" />
             </div>
           );
         })}

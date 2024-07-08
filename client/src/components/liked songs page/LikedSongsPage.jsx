@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { url } from "../data/backenUrl";
+import { AuthContext } from "../../context/AuthContext";
+import { url } from "../../data/backenUrl";
 import axios from "axios";
 import { FaHeart } from "react-icons/fa6";
 import LikedSongCard from "./LikedSongsCard";
@@ -40,7 +40,7 @@ const LikedSongsPage = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="rounded h-2/5 bg-gradient-to-t from-gray-100 to-red-600 flex flex-col justify-end p-5 mb-5">
+      <div className="rounded h-2/5 bg-gradient-to-t from-black to-red-600 flex flex-col justify-end p-5 mb-5">
         <div className="flex justify-between items-center pr-10">
           <div>
             <h1 className="text-5xl md:text-8xl font-extrabold">Liked</h1>

@@ -25,7 +25,7 @@ const TrackBar = () => {
   const [showQueue, setShowQueue] = useState(false);
 
   return (
-    <div className="pt-2 h-[10%] border-t-2 border-black  bg-teal-500 text-white flex justify-between items-center px-4 ">
+    <div className="pt-2 h-[10%] border-t-2 border-black  bg-black text-white flex justify-between items-center px-4 ">
       <div className="hidden lg:flex items-center gap-5 ">
         <img src={songDetails.image} className="h-[50px] w-[50px] bg-black" />
         <div>

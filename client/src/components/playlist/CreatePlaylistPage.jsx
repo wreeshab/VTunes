@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { url } from "../data/backenUrl";
+import { url } from "../../data/backenUrl";
 import axios from "axios";
 
 const CreatePlaylistPage = () => {

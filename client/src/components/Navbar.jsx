@@ -11,7 +11,9 @@ const Navbar = () => {
   return (
     <div className="w-full flex justify-between items-center font-semibold ">
       <div className="flex items-center gap-2 ">
-        <h1 className="text-3xl font-bold">Welcome back! {user.name}</h1>
+        <h1 className="text-xl lg:text-2xl font-bold">
+          Welcome back! {user.name}
+        </h1>
         {/* <p className='lg:flex items-center justify-center w-20 hidden h-10 bg-black rounded-full text-white font-bold cursor-pointer'>Music </p>
            <p className='lg:flex items-center justify-center w-20 hidden h-10 bg-black rounded-full text-white font-bold cursor-pointer'>Artists </p>
             <p className='lg:flex items-center justify-center w-20 hidden h-10 bg-black rounded-full text-white font-bold cursor-pointer'>Users </p> */}

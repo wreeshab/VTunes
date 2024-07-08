@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { RiPlayListFill } from "react-icons/ri";
-import { url } from "../data/backenUrl";
+import { url } from "../../data/backenUrl";
 import axios from "axios";
 import PlaylistPageCard from "./PlaylistPageCard";
 
@@ -27,7 +27,7 @@ const AllPlaylistsPage = () => {
   const { user } = useContext(AuthContext);
   return (
     <div className="h-full flex flex-col">
-      <div className="rounded h-2/5 bg-gradient-to-t from-gray-100 to-teal-600 flex flex-col justify-end p-5">
+      <div className="rounded h-2/5 bg-gradient-to-t from-black to-teal-400 flex flex-col justify-end p-5">
         <div className="flex justify-between items-center pr-10">
           <div>
             <h1 className="text-5xl md:text-8xl font-extrabold mb-2">
@@ -37,15 +37,13 @@ const AllPlaylistsPage = () => {
               By {user.name}
             </p>
           </div>
-          <RiPlayListFill className="text-6xl md:text-9xl hidden md:block text-gray-800" />
+          <RiPlayListFill className="text-6xl md:text-9xl hidden md:block text-gray-200" />
         </div>
       </div>
-      <div className="h-3/5 pt-16 w-full flex items-center justify-center  ">
-        <div className="flex flex-col items-center w-11/12 md:w-3/4 overflow-y-scroll gap-3 pb-4">
-          {playlists.map((playlist) => (
-            <PlaylistPageCard key={playlist._id} playlist={playlist} />
-          ))}
-        </div>
+      <div className="h-3/5 pt-16 w-full flex flex-col items-center   ">
+        {playlists.map((playlist) => (
+          <PlaylistPageCard key={playlist._id} playlist={playlist} />
+        ))}
       </div>
     </div>
   );
