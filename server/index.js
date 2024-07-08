@@ -24,6 +24,12 @@ mongooseConnectionDB(process.env.MONGO_URL);
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the "public" directory
+app.use(express.static("public"));
+// app.get("/delta-redirect", (req, res) => {
+//   res.sendFile(__dirname + "/public/delta-redirect.html");
+// });
+
 //routes
 app.use("/api/auth", authRouter);
 app.use("/api/artist-auth", artistAuthRouter);

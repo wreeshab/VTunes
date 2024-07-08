@@ -1,6 +1,6 @@
-const loginWithDeltaClient = async () => {
+const loginWithDeltaClient = () => {
   const clientId = "zqtllGJ6gPBFow1h";
-  const redirectUri = "http://localhost:5000/api/auth/delta";
+  const redirectUri = "http://localhost:5000/delta-redirect.html";
   const authorizationUrl = "https://auth.delta.nitt.edu/authorize";
   const params = {
     client_id: clientId,
@@ -13,11 +13,7 @@ const loginWithDeltaClient = async () => {
 
   const queryString = new URLSearchParams(params).toString();
   const deltaAuthUrl = `${authorizationUrl}?${queryString}`;
-  const deltaAuthWindow = window.open(
-    deltaAuthUrl,
-    "_blank",
-    "width=800,height=600"
-  );
+  window.open(deltaAuthUrl, "_blank", "width=800,height=600");
 };
 
 export default loginWithDeltaClient;
