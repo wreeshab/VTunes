@@ -10,10 +10,8 @@ import playlistRouter from "./routes/playlistRoute.js";
 import searchRouter from "./routes/searchRouter.js";
 import friendRequstRouter from "./routes/friendRequestRoute.js";
 import getUserProfile from "./controllers/user Controller/getUserInfoController.js";
-
+import { app, server } from "./socket/socket.js";
 //importing routes
-
-const app = express();
 
 const PORT = process.env.PORT || 5000;
 
@@ -39,6 +37,6 @@ app.use("/api/playlist", playlistRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/friend-request", friendRequstRouter);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}`);
 });

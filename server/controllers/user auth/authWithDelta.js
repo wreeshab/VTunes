@@ -6,9 +6,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const loginWithDelta = async (req, res) => {
-  console.log(req);
+  // console.log(req);
   const code = req.query.code;
-  console.log(code);
+  // console.log(code);
 
   const url = "https://auth.delta.nitt.edu/api/oauth/token";
 
@@ -38,9 +38,9 @@ const loginWithDelta = async (req, res) => {
     }
   );
 
-  console.log(result);
+  // console.log(result);
   const deltaUser = deltaRes.data;
-  console.log(deltaUser);
+  // console.log(deltaUser);
 
   const user = await User.findOne({ email: deltaUser.email });
   if (!user) {
