@@ -15,7 +15,7 @@ const MusicCardSquare = ({ image, name, id, audioUrl, artist }) => {
         setTrackAndPlay(audioUrl, { name, image, artist: artist.name });
       }}
     >
-      <img src={image} className="mx-auto rounded-xl w-36 h-36" alt={name} />
+      <img src={image} className="mx-auto rounded-md w-36 h-36" alt={name} />
       <div className="mt-2 flex flex-col items-center">
         <p className="mt-2 mb-1 text-center text-lg">{name}</p>
         <p className="text-center text-sm font-light">by {artist.name}</p>

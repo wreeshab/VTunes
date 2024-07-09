@@ -19,9 +19,6 @@ const acceptFriendRequest = async (req, res) => {
   fromUser.friends.push(toUser._id);
   toUser.friends.push(fromUser._id);
 
-  fromUser.friends.push(toUser._id);
-  toUser.friends.push(fromUser._id);
-
   fromUser.friendRequests = fromUser.friendRequests.filter(
     (request) => request.toString() !== requestId
   );
