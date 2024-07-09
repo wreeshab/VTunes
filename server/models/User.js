@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  currentlyPlaying: {
+    type: Object,
+    default: null,
+  },
   likedSongs: [
     {
       type: mongoose.Schema.Types.ObjectId,

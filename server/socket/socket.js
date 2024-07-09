@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import http from "http";
 import express from "express";
+import songChangeIo from "../socket controllers/IOsongChangeController.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -10,7 +11,7 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
-const userSocketMap = {}; // object with userId as key and socketId as value
+export const userSocketMap = {}; // object with userId as key and socketId as value
 
 io.on("connection", (socket) => {
   console.log(socket.id, "user connected!");
@@ -21,6 +22,14 @@ io.on("connection", (socket) => {
   }
   // As soon as a user joins, they'll get info about the other users online
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  socket.on("start-playing", (data) => {
+    songChangeIo({
+      io,
+      socket,
+      userId: data.userId,
+      songDetails: data.songDetails,
+    });
+  });
 
   console.log(userSocketMap);
 

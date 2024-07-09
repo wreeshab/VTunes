@@ -1,6 +1,6 @@
 import { createContext, useRef, useState, useEffect, useContext } from "react";
-import { SocketContext, SocketContextProvider } from "./SocketContext";
-
+import { SocketContext } from "./SocketContext";
+import { AuthContext } from "./AuthContext";
 
 const PlayerContext = createContext();
 
@@ -8,19 +8,14 @@ const PlayerContextProvider = ({ children }) => {
   const audioRef = useRef();
   const seekBackground = useRef();
   const seekBar = useRef();
-  const { currentSongSoc, setCurrentSongSoc, socket } = useContext(SocketContext);
+  const { socket } = useContext(SocketContext);
+  const { user } = useContext(AuthContext);
 
   const [track, setTrack] = useState();
   const [playerStatus, setPlayerStatus] = useState(false);
   const [time, setTime] = useState({
-    currentTime: {
-      minutes: 0,
-      seconds: 0,
-    },
-    duration: {
-      minutes: 0,
-      seconds: 0,
-    },
+    currentTime: { minutes: 0, seconds: 0 },
+    duration: { minutes: 0, seconds: 0 },
   });
   const [songDetails, setSongDetails] = useState({
     name: "",
@@ -29,50 +24,39 @@ const PlayerContextProvider = ({ children }) => {
   });
   const [queue, setQueue] = useState([]);
 
+  // Add songs to the queue
   const addToQueue = (songs) => {
     setQueue((prevQueue) => [...prevQueue, ...songs]);
   };
 
-  useEffect(() => {
-    if (queue.length > 0 && (!track || track === "" || track === undefined)) {
-      setSongDetails({
-        name: queue[0].name,
-        artist: queue[0].artist.name,
-        image: queue[0].thumbnailUrl,
-      });
-      setTrackAndPlay(queue[0].audioUrl, {
-        name: queue[0].name,
-        artist: queue[0].artist.name,
-        image: queue[0].thumbnailUrl,
-      });
-    }
-  }, [queue]);
-
+  // Clear the queue
   const clearQueue = () => {
     setQueue([]);
   };
 
-
+  // Update current time and progress of the audio playback
   useEffect(() => {
     const updateCurrentTime = () => {
-      const currentTime = Math.floor(audioRef.current.currentTime);
-      const duration = Math.floor(audioRef.current.duration);
+      if (audioRef.current) {
+        const currentTime = Math.floor(audioRef.current.currentTime);
+        const duration = Math.floor(audioRef.current.duration);
 
-      setTime({
-        currentTime: {
-          minutes: Math.floor(currentTime / 60),
-          seconds: currentTime % 60,
-        },
-        duration: {
-          minutes: Math.floor(duration / 60),
-          seconds: duration % 60,
-        },
-      });
+        setTime({
+          currentTime: {
+            minutes: Math.floor(currentTime / 60),
+            seconds: currentTime % 60,
+          },
+          duration: {
+            minutes: Math.floor(duration / 60),
+            seconds: duration % 60,
+          },
+        });
 
-      if (seekBar.current && audioRef.current.duration) {
-        const progressPercent =
-          (audioRef.current.currentTime / audioRef.current.duration) * 100;
-        seekBar.current.style.width = `${progressPercent}%`;
+        if (seekBar.current && audioRef.current.duration) {
+          const progressPercent =
+            (audioRef.current.currentTime / audioRef.current.duration) * 100;
+          seekBar.current.style.width = `${progressPercent}%`;
+        }
       }
     };
 
@@ -92,37 +76,54 @@ const PlayerContextProvider = ({ children }) => {
         audioRef.current.removeEventListener("ended", handleSongEnd);
       }
     };
-  }, [track, queue]);
+  }, [track, queue]); // Update effect when track or queue changes
 
-  // Play function to start the audio
+  // Play function to start the audio playback
   const play = () => {
     audioRef.current.play();
     setPlayerStatus(true);
   };
 
-  // Pause function to pause the audio
+  // Pause function to pause the audio playback
   const pause = () => {
     audioRef.current.pause();
     setPlayerStatus(false);
   };
 
+  // Emit "start-playing" event to socket when user and songDetails change
+  useEffect(() => {
+    if (user && songDetails && socket) {
+      socket.emit("start-playing", {
+        userId: user.id,
+        songDetails,
+      });
+    }
+  }, [user, songDetails, socket]);
+
   // Function to set a new track and play it immediately
   const setTrackAndPlay = (audioUrl, songDetails) => {
     setTrack(audioUrl); // Set the track URL
     setSongDetails(songDetails); // Set song details
+
     setTimeout(() => {
-      audioRef.current.src = audioUrl; // Update audio element's source
-      play(); // Play the audio
+      if (audioRef.current) {
+        audioRef.current.src = audioUrl; // Update audio element's source
+        play(); // Play the audio
+      }
     }, 0);
   };
 
+  // Seek to a specific position in the audio playback
   const seek = (e) => {
-    const rect = seekBackground.current.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const seekTime = (offsetX / rect.width) * audioRef.current.duration;
-    audioRef.current.currentTime = seekTime;
+    if (audioRef.current) {
+      const rect = seekBackground.current.getBoundingClientRect();
+      const offsetX = e.clientX - rect.left;
+      const seekTime = (offsetX / rect.width) * audioRef.current.duration;
+      audioRef.current.currentTime = seekTime;
+    }
   };
 
+  // Handle the end of a song in the queue
   const handleSongEnd = () => {
     if (queue.length > 0) {
       // Remove the first song from the queue
@@ -149,6 +150,7 @@ const PlayerContextProvider = ({ children }) => {
     }
   };
 
+  // Context value to be provided to consumers
   const contextValue = {
     audioRef,
     seekBackground,
@@ -170,6 +172,7 @@ const PlayerContextProvider = ({ children }) => {
     clearQueue,
   };
 
+  // Provide the context value to children components
   return (
     <PlayerContext.Provider value={contextValue}>
       {children}

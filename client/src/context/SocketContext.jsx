@@ -21,7 +21,6 @@ const SocketContextProvider = ({ children }) => {
         setOnlineUsers(users);
       });
 
-
       setSocket(newSocket);
 
       // returning the socket for cleanup
