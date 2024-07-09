@@ -7,6 +7,7 @@ const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { user } = useContext(AuthContext);
+  const [currentSongSoc, setCurrentSongSoc] = useState({});
 
   useEffect(() => {
     const setupSocket = () => {
@@ -19,6 +20,7 @@ const SocketContextProvider = ({ children }) => {
       newSocket.on("getOnlineUsers", (users) => {
         setOnlineUsers(users);
       });
+
 
       setSocket(newSocket);
 
@@ -41,7 +43,7 @@ const SocketContextProvider = ({ children }) => {
         disconnectSocket(newSocket);
       };
     } else {
-      // Clean up if user becomes null
+      // Cleaning up if user becomes null
       disconnectSocket(socket);
       setSocket(null);
       setOnlineUsers([]);
@@ -50,7 +52,9 @@ const SocketContextProvider = ({ children }) => {
   }, [user]);
 
   return (
-    <SocketContext.Provider value={{ socket, onlineUsers }}>
+    <SocketContext.Provider
+      value={{ socket, onlineUsers, currentSongSoc, setCurrentSongSoc }}
+    >
       {children}
     </SocketContext.Provider>
   );

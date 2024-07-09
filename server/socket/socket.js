@@ -16,17 +16,19 @@ io.on("connection", (socket) => {
   console.log(socket.id, "user connected!");
 
   const userId = socket.handshake.query.userId;
-  if (userId != "undefined") {
+  if (userId !== "undefined") {
     userSocketMap[userId] = socket.id;
   }
-  // soon as an user joins he'll get info about the other users online
+  // As soon as a user joins, they'll get info about the other users online
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
   console.log(userSocketMap);
+
+  socket.on("disconnect", () => {
+    console.log(socket.id, "user disconnected!");
+    delete userSocketMap[userId];
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  });
 });
-io.on("disconnect", () => {
-  console.log(socket.id, "user disconnected!");
-  delete userSocketMap[userId];
-  io.emit("getOnlineUsers", Object.keys(userSocketMap));
-});
+
 export { app, io, server };

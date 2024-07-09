@@ -1,4 +1,6 @@
-import { createContext, useRef, useState, useEffect } from "react";
+import { createContext, useRef, useState, useEffect, useContext } from "react";
+import { SocketContext, SocketContextProvider } from "./SocketContext";
+
 
 const PlayerContext = createContext();
 
@@ -6,6 +8,7 @@ const PlayerContextProvider = ({ children }) => {
   const audioRef = useRef();
   const seekBackground = useRef();
   const seekBar = useRef();
+  const { currentSongSoc, setCurrentSongSoc, socket } = useContext(SocketContext);
 
   const [track, setTrack] = useState();
   const [playerStatus, setPlayerStatus] = useState(false);
@@ -48,6 +51,7 @@ const PlayerContextProvider = ({ children }) => {
   const clearQueue = () => {
     setQueue([]);
   };
+
 
   useEffect(() => {
     const updateCurrentTime = () => {

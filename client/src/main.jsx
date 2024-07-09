@@ -10,11 +10,11 @@ import { SocketContextProvider } from "./context/SocketContext.jsx";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
     <AuthContextProvider>
-      <PlayerContextProvider>
-        <SocketContextProvider>
+      <SocketContextProvider>
+        <PlayerContextProvider>
           <App />
-        </SocketContextProvider>
-      </PlayerContextProvider>
+        </PlayerContextProvider>
+      </SocketContextProvider>
     </AuthContextProvider>
     {/* <AuthProvider Children={<App />} / > */}
   </BrowserRouter>

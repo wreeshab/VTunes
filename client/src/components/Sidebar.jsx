@@ -32,7 +32,7 @@ const Sidebar = () => {
       <hr className="w-[50%] m-auto   bg-black h-0.5 " />
       <div className=" h-[85%] rounded">
         <div className="p-4 flex items-center justify-between mt-5 ">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3" onClick={() => navigate("/dashboard/friends")}>
             <FaUserFriends />
             <p className="font-semibold">Your Friends</p>
           </div>

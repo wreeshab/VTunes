@@ -11,6 +11,7 @@ import searchRouter from "./routes/searchRouter.js";
 import friendRequstRouter from "./routes/friendRequestRoute.js";
 import getUserProfile from "./controllers/user Controller/getUserInfoController.js";
 import { app, server } from "./socket/socket.js";
+import userAuthMiddleware from "./middleware/userAuthMiddleware.js";
 //importing routes
 
 const PORT = process.env.PORT || 5000;
@@ -28,10 +29,11 @@ app.use(express.static("public"));
 //   res.sendFile(__dirname + "/public/delta-redirect.html");
 // });
 
+app.get("/api/user-info",userAuthMiddleware, getUserProfile); //this get user info does not have routes, direct connection to controller
+
 //routes
 app.use("/api/auth", authRouter);
 app.use("/api/artist-auth", artistAuthRouter);
-app.use("/api/user-info", getUserProfile); //this get user info does not have routes, direct connection to controller
 app.use("/api/songs", songRouter);
 app.use("/api/playlist", playlistRouter);
 app.use("/api/search", searchRouter);
