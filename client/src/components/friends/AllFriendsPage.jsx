@@ -28,6 +28,8 @@ const AllFriendsPage = () => {
   }, []);
 
   useEffect(() => {
+    if (!socket) return;
+
     const handleUpdateSong = ({ userId, songDetails }) => {
       setFriends((prevFriends) =>
         prevFriends.map((friend) =>
@@ -99,7 +101,7 @@ const FriendCard = ({ friend, online }) => (
       </div>
       <div className="flex items-center gap-3 bg-gray-800 p-2 rounded-lg">
         <p className="text-sm">Currently Playing:</p>
-        {friend.currentlyPlaying ? (
+        {friend.currentlyPlaying && online ? (
           <div className="flex items-center gap-3 bg-gray-900 p-2 rounded-lg">
             <img
               src={friend.currentlyPlaying.image}
