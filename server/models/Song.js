@@ -10,6 +10,14 @@ const songSchema = new mongoose.Schema({
     ref: "Artist",
     required: true,
   },
+  language: {
+    type: String,
+    required: true,
+  },
+  genre: {
+    type: String,
+    required: true,
+  },
   thumbnailUrl: {
     type: String,
     required: true,
