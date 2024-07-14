@@ -24,8 +24,26 @@ const PlayerContextProvider = ({ children }) => {
   });
   const [queue, setQueue] = useState([]);
 
-  const addToQueue = (songs) =>
-    setQueue((prevQueue) => [...prevQueue, ...songs]);
+  const addToQueue = (songs) => {
+    setQueue((prevQueue) => {
+      const newQueue = [...prevQueue, ...songs];
+      if (!track && newQueue.length > 0) {
+        const firstSong = newQueue[0];
+        const songDetails = {
+          name: firstSong.name,
+          artist: firstSong.artist.name,
+          image: firstSong.thumbnailUrl,
+        };
+
+        setTrackAndPlay(firstSong.audioUrl, songDetails);
+        setSongDetails(songDetails);
+
+        console.log(songDetails);
+      }
+      return newQueue;
+    });
+  };
+
   const clearQueue = () => setQueue([]);
 
   useEffect(() => {
@@ -47,7 +65,7 @@ const PlayerContextProvider = ({ children }) => {
   }, [socket]);
 
   const handlePlay = () => playForSocket();
-  const handlePause = () => pauseFoSocket();
+  const handlePause = () => pauseForSocket();
   const handleSeek = (time) => {
     if (audioRef.current) {
       audioRef.current.currentTime = time;
@@ -56,6 +74,7 @@ const PlayerContextProvider = ({ children }) => {
   const handleTrackChange = ({ audioUrl, songDetails }) => {
     setTrackAndPlayForSocket(audioUrl, songDetails);
   };
+  //the three functions given below prevent infinite loop.
 
   const playForSocket = () => {
     if (audioRef.current) {
@@ -63,7 +82,7 @@ const PlayerContextProvider = ({ children }) => {
       setPlayerStatus(true);
     }
   };
-  const pauseFoSocket = () => {
+  const pauseForSocket = () => {
     if (audioRef.current) {
       audioRef.current.pause();
       setPlayerStatus(false);
@@ -80,7 +99,7 @@ const PlayerContextProvider = ({ children }) => {
         play();
       }
     }, 25);
-  }
+  };
 
   const play = () => {
     audioRef.current.play();
@@ -164,8 +183,6 @@ const PlayerContextProvider = ({ children }) => {
       });
     }
   }, [user, songDetails, socket]);
-
-  
 
   const seek = (e) => {
     if (audioRef.current) {

@@ -22,8 +22,7 @@ const SocketContextProvider = ({ children }) => {
       });
 
       setSocket(newSocket);
-
-      // returning the socket for cleanup
+      //clean ups
       return newSocket;
     };
 
@@ -37,12 +36,12 @@ const SocketContextProvider = ({ children }) => {
       const newSocket = setupSocket();
       console.log("Connected to socket");
 
-      // Clean up socket connection
+      // Clean ups on unmount
       return () => {
         disconnectSocket(newSocket);
       };
     } else {
-      // Cleaning up if user becomes null
+      // Cleaning up if user becomes null so that we can save sone memory
       disconnectSocket(socket);
       setSocket(null);
       setOnlineUsers([]);

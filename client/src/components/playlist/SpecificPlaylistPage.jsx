@@ -6,11 +6,13 @@ import { FaPlayCircle } from "react-icons/fa";
 import { PlayerContext } from "../../context/PlayerContext";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { url } from "../../data/backenUrl";
+import getSongDuration from "../../helpers/getSongDuration";
 
 const SpecificPlaylistPage = () => {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const [playlist, setPlaylist] = useState(null);
+  const [totalDuration, setTotalDuration] = useState("");
 
   const { addToQueue, clearQueue } = useContext(PlayerContext);
 
@@ -24,7 +26,25 @@ const SpecificPlaylistPage = () => {
         });
         console.log(response.data);
         if (response) {
-          setPlaylist(response.data);
+          const playlistData = response.data;
+          setPlaylist(playlistData);
+
+          const durations = await Promise.all(
+            playlistData.songsArray.map(async (song) => {
+              const duration = await getSongDuration(song.audioUrl);
+              return duration;
+            })
+          );
+
+          const totalDurationInSeconds = durations.reduce(
+            (acc, duration) => acc + duration,
+            0
+          );
+
+          const hours = Math.floor(totalDurationInSeconds / 3600);
+          const minutes = Math.floor((totalDurationInSeconds % 3600) / 60);
+
+          setTotalDuration(hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`);
         } else {
           console.error("Failed to fetch playlist");
         }
@@ -58,6 +78,10 @@ const SpecificPlaylistPage = () => {
             </h1>
             <p className="text-lg md:text-xl font-bold text-gray-500">
               By {user.name}
+            </p>
+            <p className="text-lg md:text-xl font-bold text-gray-500">
+              Total Duration:{" "}
+              <span className="text-white">{totalDuration}</span>
             </p>
           </div>
           <FaPlayCircle

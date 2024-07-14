@@ -40,7 +40,7 @@ const AllPlaylistsPage = () => {
           <RiPlayListFill className="text-6xl md:text-9xl hidden md:block text-gray-200" />
         </div>
       </div>
-      <div className="h-3/5 pt-16 w-full flex flex-col items-center   ">
+      <div className="h-3/5 pt-16 w-full flex flex-col items-center gap-2  ">
         {playlists.map((playlist) => (
           <PlaylistPageCard key={playlist._id} playlist={playlist} />
         ))}
