@@ -2,6 +2,7 @@ import { Server } from "socket.io";
 import http from "http";
 import express from "express";
 import songChangeIo from "../socket controllers/IOsongChangeController.js";
+import syncPlaybackIo from "../socket controllers/IOsyncPlayback.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -30,8 +31,9 @@ io.on("connection", (socket) => {
       songDetails: data.songDetails,
     });
   });
+  syncPlaybackIo({ io, socket });
 
-  console.log(userSocketMap);
+  // console.log(userSocketMap);
 
   socket.on("disconnect", () => {
     console.log(socket.id, "user disconnected!");

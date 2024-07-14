@@ -101,7 +101,10 @@ const FriendCard = ({ friend, online }) => (
       </div>
       <div className="flex items-center gap-3 bg-gray-800 p-2 rounded-lg">
         <p className="text-sm">Currently Playing:</p>
-        {friend.currentlyPlaying && online ? (
+        {friend.currentlyPlaying?.name &&
+        friend.currentlyPlaying?.image &&
+        friend.currentlyPlaying?.artist &&
+        online ? (
           <div className="flex items-center gap-3 bg-gray-900 p-2 rounded-lg">
             <img
               src={friend.currentlyPlaying.image}

@@ -24,17 +24,39 @@ const PlayerContextProvider = ({ children }) => {
   });
   const [queue, setQueue] = useState([]);
 
-  // Add songs to the queue
-  const addToQueue = (songs) => {
+  const addToQueue = (songs) =>
     setQueue((prevQueue) => [...prevQueue, ...songs]);
+  const clearQueue = () => setQueue([]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit("join-room", user.id);
+      socket.on("play", handlePlay);
+      socket.on("pause", handlePause);
+      socket.on("seek", handleSeek);
+      socket.on("track-change", handleTrackChange);
+
+      return () => {
+        socket.emit("leave-room", user.id);
+        socket.off("play", handlePlay);
+        socket.off("pause", handlePause);
+        socket.off("seek", handleSeek);
+        socket.off("track-change", handleTrackChange);
+      };
+    }
+  }, [socket]);
+
+  const handlePlay = () => play();
+  const handlePause = () => pause();
+  const handleSeek = (time) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = time;
+    }
+  };
+  const handleTrackChange = ({ audioUrl,songDetails }) => {
+    setTrackAndPlay(audioUrl,songDetails );
   };
 
-  // Clear the queue
-  const clearQueue = () => {
-    setQueue([]);
-  };
-
-  // Update current time and progress of the audio playback
   useEffect(() => {
     const updateCurrentTime = () => {
       if (audioRef.current) {
@@ -76,21 +98,24 @@ const PlayerContextProvider = ({ children }) => {
         audioRef.current.removeEventListener("ended", handleSongEnd);
       }
     };
-  }, [track, queue]); // Update effect when track or queue changes
+  }, [track, queue]);
 
-  // Play function to start the audio playback
   const play = () => {
     audioRef.current.play();
     setPlayerStatus(true);
+    if (user && socket) {
+      socket.emit("play", user.id);
+    }
   };
 
-  // Pause function to pause the audio playback
   const pause = () => {
     audioRef.current.pause();
     setPlayerStatus(false);
+    if (user && socket) {
+      socket.emit("pause", user.id);
+    }
   };
 
-  // Emit "start-playing" event to socket when user and songDetails change
   useEffect(() => {
     if (user && songDetails && socket) {
       socket.emit("start-playing", {
@@ -100,37 +125,39 @@ const PlayerContextProvider = ({ children }) => {
     }
   }, [user, songDetails, socket]);
 
-  // Function to set a new track and play it immediately
   const setTrackAndPlay = (audioUrl, songDetails) => {
-    setTrack(audioUrl); // Set the track URL
-    setSongDetails(songDetails); // Set song details
-
+    setTrack(audioUrl);
+    setSongDetails(songDetails);
+    // i have no idea why without the timeout its not working, probably there's some delay in the audio loading.
     setTimeout(() => {
       if (audioRef.current) {
-        audioRef.current.src = audioUrl; // Update audio element's source
-        play(); // Play the audio
+        audioRef.current.src = audioUrl;
+        play();
       }
-    }, 0);
+      if (user && socket) {
+        socket.emit("track-change", { userId: user.id, audioUrl, songDetails });
+      }
+    }, 25);
   };
 
-  // Seek to a specific position in the audio playback
   const seek = (e) => {
     if (audioRef.current) {
       const rect = seekBackground.current.getBoundingClientRect();
       const offsetX = e.clientX - rect.left;
       const seekTime = (offsetX / rect.width) * audioRef.current.duration;
       audioRef.current.currentTime = seekTime;
+
+      if (user && socket) {
+        socket.emit("seek", user.id, seekTime);
+      }
     }
   };
 
-  // Handle the end of a song in the queue
   const handleSongEnd = () => {
     if (queue.length > 0) {
-      // Remove the first song from the queue
       const newQueue = queue.slice(1);
       setQueue(newQueue);
 
-      // If there is a next song, play it
       if (newQueue.length > 0) {
         setSongDetails({
           name: newQueue[0].name,
@@ -143,14 +170,12 @@ const PlayerContextProvider = ({ children }) => {
           image: newQueue[0].thumbnailUrl,
         });
       } else {
-        // If the queue is empty, stop the player
         setTrack(null);
         setPlayerStatus(false);
       }
     }
   };
 
-  // Context value to be provided to consumers
   const contextValue = {
     audioRef,
     seekBackground,
@@ -172,7 +197,6 @@ const PlayerContextProvider = ({ children }) => {
     clearQueue,
   };
 
-  // Provide the context value to children components
   return (
     <PlayerContext.Provider value={contextValue}>
       {children}
