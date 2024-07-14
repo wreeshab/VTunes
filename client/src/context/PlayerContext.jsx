@@ -46,15 +46,71 @@ const PlayerContextProvider = ({ children }) => {
     }
   }, [socket]);
 
-  const handlePlay = () => play();
-  const handlePause = () => pause();
+  const handlePlay = () => playForSocket();
+  const handlePause = () => pauseFoSocket();
   const handleSeek = (time) => {
     if (audioRef.current) {
       audioRef.current.currentTime = time;
     }
   };
-  const handleTrackChange = ({ audioUrl,songDetails }) => {
-    setTrackAndPlay(audioUrl,songDetails );
+  const handleTrackChange = ({ audioUrl, songDetails }) => {
+    setTrackAndPlayForSocket(audioUrl, songDetails);
+  };
+
+  const playForSocket = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+      setPlayerStatus(true);
+    }
+  };
+  const pauseFoSocket = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setPlayerStatus(false);
+    }
+  };
+
+  const setTrackAndPlayForSocket = (audioUrl, songDetails) => {
+    setTrack(audioUrl);
+    setSongDetails(songDetails);
+    // i have no idea why without the timeout its not working, probably there's some delay in the audio loading.
+    setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current.src = audioUrl;
+        play();
+      }
+    }, 25);
+  }
+
+  const play = () => {
+    audioRef.current.play();
+    setPlayerStatus(true);
+    if (user && socket) {
+      socket.emit("play", user.id);
+    }
+  };
+
+  const pause = () => {
+    audioRef.current.pause();
+    setPlayerStatus(false);
+    if (user && socket) {
+      socket.emit("pause", user.id);
+    }
+  };
+
+  const setTrackAndPlay = (audioUrl, songDetails) => {
+    setTrack(audioUrl);
+    setSongDetails(songDetails);
+    // i have no idea why without the timeout its not working, probably there's some delay in the audio loading.
+    setTimeout(() => {
+      if (audioRef.current) {
+        audioRef.current.src = audioUrl;
+        play();
+      }
+      if (user && socket) {
+        socket.emit("track-change", { userId: user.id, audioUrl, songDetails });
+      }
+    }, 25);
   };
 
   useEffect(() => {
@@ -100,22 +156,6 @@ const PlayerContextProvider = ({ children }) => {
     };
   }, [track, queue]);
 
-  const play = () => {
-    audioRef.current.play();
-    setPlayerStatus(true);
-    if (user && socket) {
-      socket.emit("play", user.id);
-    }
-  };
-
-  const pause = () => {
-    audioRef.current.pause();
-    setPlayerStatus(false);
-    if (user && socket) {
-      socket.emit("pause", user.id);
-    }
-  };
-
   useEffect(() => {
     if (user && songDetails && socket) {
       socket.emit("start-playing", {
@@ -125,20 +165,7 @@ const PlayerContextProvider = ({ children }) => {
     }
   }, [user, songDetails, socket]);
 
-  const setTrackAndPlay = (audioUrl, songDetails) => {
-    setTrack(audioUrl);
-    setSongDetails(songDetails);
-    // i have no idea why without the timeout its not working, probably there's some delay in the audio loading.
-    setTimeout(() => {
-      if (audioRef.current) {
-        audioRef.current.src = audioUrl;
-        play();
-      }
-      if (user && socket) {
-        socket.emit("track-change", { userId: user.id, audioUrl, songDetails });
-      }
-    }, 25);
-  };
+  
 
   const seek = (e) => {
     if (audioRef.current) {
