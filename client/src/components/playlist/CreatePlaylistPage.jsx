@@ -6,6 +6,8 @@ import axios from "axios";
 const CreatePlaylistPage = () => {
   const [playlistName, setPlaylistName] = useState("");
   const [thumbnailImage, setThumbnailImage] = useState(null);
+  const [isPrivate, setIsPrivate] = useState(false); //this is private/ public toggle
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -18,19 +20,28 @@ const CreatePlaylistPage = () => {
 
     formData.append("name", playlistName);
     formData.append("thumbnailImage", thumbnailImage);
+    formData.append("private", isPrivate);
 
     try {
+      setLoading(true);
+
       const response = await axios.post(`${url}/playlist/create`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+
       console.log(response);
       toast.success(response.data.message);
+      setPlaylistName("");
+      setThumbnailImage(null);
+      setIsPrivate(false);
     } catch (err) {
       console.log(err);
       toast.error(err.response.data.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -46,8 +57,9 @@ const CreatePlaylistPage = () => {
             type="text"
             name="name"
             id="name"
-            className="p-2 rounded bg-gray-700 border border-gray-600 text-white "
+            className="p-2 rounded bg-gray-700 border border-gray-600 text-white"
             onChange={(e) => setPlaylistName(e.target.value)}
+            value={playlistName}
           />
           <label htmlFor="thumbnail-image" className="text-lg">
             Thumbnail Image
@@ -60,10 +72,30 @@ const CreatePlaylistPage = () => {
             className="p-2 rounded bg-gray-700 border border-gray-600 text-white"
             onChange={(e) => setThumbnailImage(e.target.files[0])}
           />
+          <div className="flex items-center">
+            <label htmlFor="isPrivate" className="text-lg mr-2">
+              Private Playlist
+            </label>
+            <input
+              type="checkbox"
+              name="isPrivate"
+              id="isPrivate"
+              checked={isPrivate}
+              onChange={(e) => setIsPrivate(e.target.checked)}
+              className="rounded border-gray-600 text-teal-500"
+              value={isPrivate}
+            />
+          </div>
+          {loading && (
+            <p className="text-white mt-2">
+              Uploading... Please wait. Do not refresh.
+            </p>
+          )}
           <button
             type="submit"
             className="p-2 mt-4 rounded bg-teal-500 hover:bg-teal-600 text-white font-bold"
             onClick={onSubmit}
+            disabled={loading}
           >
             Create
           </button>

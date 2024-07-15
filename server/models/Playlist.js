@@ -11,6 +11,10 @@ const playlistSchema = new mongoose.Schema({
       ref: "Song",
     },
   ],
+  private: {
+    type: Boolean,
+    default: false,
+  },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
