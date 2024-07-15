@@ -32,6 +32,9 @@ const createSong = async (req, res) => {
       artist: artistID,
     });
     await newSong.save();
+    const artist = await Artist.findById(artistID);
+    artist.composedSongs.push(newSong._id);
+    await artist.save();
 
     return res.status(201).json({
       message: "Track Published Successfully!",

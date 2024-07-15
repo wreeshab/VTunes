@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { url } from "../data/backendUrl";
+
 
 const RightHalf = () => {
   const [trackName, setTrackName] = useState("");
@@ -38,7 +40,7 @@ const RightHalf = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/songs/create",
+        `${url}/songs/create`,
         formData,
         {
           headers: {
@@ -63,7 +65,7 @@ const RightHalf = () => {
   };
 
   return (
-    <div className="w-[50%] flex flex-col items-center justify-center p-6 bg-gray-800 rounded-lg shadow-md">
+    <div className="w-[40%] flex flex-col items-center justify-center p-6 bg-gray-800  shadow-md">
       <ToastContainer />
       <h1 className="font-bold text-4xl text-white mb-8">
         Upload Your Next Track
