@@ -27,7 +27,7 @@ const LeftHalf = () => {
   }, []);
 
   return (
-    <div className="w-[60%] flex flex-col items-center bg-gradient-to-r from-gray-400 to-gray-800 p-6 shadow-md">
+    <div className="w-[60%] flex flex-col items-center bg-gradient-to-r from-gray-400 to-gray-700 p-6 shadow-md">
       <ToastContainer />
       <h1 className="font-bold text-4xl text-white mb-8">Your Songs</h1>
       <div className="flex flex-wrap justify-center p-5 w-full gap-6 overflow-scroll ">

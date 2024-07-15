@@ -65,7 +65,7 @@ const RightHalf = () => {
   };
 
   return (
-    <div className="w-[40%] flex flex-col items-center justify-center p-6 bg-gray-800  shadow-md">
+    <div className="w-[40%] flex flex-col items-center justify-center p-6 bg-gradient-to-r from-gray-700 to-gray-900  ">
       <ToastContainer />
       <h1 className="font-bold text-4xl text-white mb-8">
         Upload Your Next Track
