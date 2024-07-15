@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import MusicCardSquare from "./MusicCardSquare";
 import axios from "axios";
 import Navbar from "../Navbar";
+import { url } from "../../data/backenUrl";
 
 const DisplayHome = () => {
-  const [url, setUrl] = useState("http://localhost:5000/api");
   const [songs, setSongs] = useState([]);
   const [playlists, setPlaylists] = useState([]);
 
@@ -46,8 +46,8 @@ const DisplayHome = () => {
     <div className="px-7 pt-4">
       <Navbar />
       <div className="mb-4 ">
-        <h1 className="font-bold text-2xl text-center ">New Songs</h1>
-        <div className="my-5 font-bold text-2xl flex overflow-auto gap-2 ">
+        <h1 className="font-bold text-2xl text-center mt-4">New Songs</h1>
+        <div className="my-5 font-bold text-2xl flex overflow-auto gap-2">
           {songs.map((item, index) => (
             <MusicCardSquare
               key={index}
