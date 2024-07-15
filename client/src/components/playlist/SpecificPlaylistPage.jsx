@@ -5,6 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { FaPlayCircle } from "react-icons/fa";
 import { PlayerContext } from "../../context/PlayerContext";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaLock } from "react-icons/fa";
 import { url } from "../../data/backenUrl";
 import getSongDuration from "../../helpers/getSongDuration";
 
@@ -35,10 +36,10 @@ const SpecificPlaylistPage = () => {
               return duration;
             })
           );
-
+          //notes for later: 0 is the init value of accumulator, upon every iteration next value of duration is added  to accumulator
           const totalDurationInSeconds = durations.reduce(
             (acc, duration) => acc + duration,
-            0
+            0 // init value for accumulator
           );
 
           const hours = Math.floor(totalDurationInSeconds / 3600);
@@ -73,10 +74,14 @@ const SpecificPlaylistPage = () => {
       <div className="rounded h-2/5 bg-gradient-to-t from-black to-lime-600 flex flex-col justify-end p-5">
         <div className="flex justify-between items-center pr-10">
           <div>
-            <h1 className="text-5xl md:text-8xl text-white font-extrabold mb-2">
-              {playlist.playlist.name}
-            </h1>
-            <p className="text-lg md:text-xl font-bold text-gray-500">
+            <div className="flex items-center justify-center gap-5  ">
+              <h1 className="text-5xl my-4 md:text-8xl text-white font-extrabold ">
+                {playlist.playlist.name}
+              </h1>
+              {playlist.playlist.private ? <FaLock className="text-2xl md:text-3xl text-yellow-300" /> : null }
+            </div>
+
+            <p className="text-lg md:text-xl font-bold mt-5 text-gray-500">
               By {user.name}
             </p>
             <p className="text-lg md:text-xl font-bold text-gray-500">

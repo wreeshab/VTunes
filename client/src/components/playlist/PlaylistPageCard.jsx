@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { FaLock } from "react-icons/fa";
 
 const PlaylistPageCard = ({ playlist }) => {
   const navigate = useNavigate();
@@ -15,9 +16,13 @@ const PlaylistPageCard = ({ playlist }) => {
         className="w-10 h-10 rounded-md object-cover"
       />
       <div>
-        <h2 className="text-lg md:text-xl font-bold text-gray-100">
-          {playlist.name}
-        </h2>
+        <div className="flex items-center justify-start gap-2">
+          <h2 className="text-lg md:text-xl font-bold text-gray-100">
+            {playlist.name}
+          </h2>
+          {playlist.private ? <FaLock className="text-md md:text-sm text-yellow-500" /> : null }
+        </div>
+
         <p className="text-sm md:text-base text-white">
           Created by: {playlist.owner.name}
         </p>
