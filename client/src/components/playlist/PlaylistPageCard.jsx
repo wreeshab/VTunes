@@ -20,7 +20,9 @@ const PlaylistPageCard = ({ playlist }) => {
           <h2 className="text-lg md:text-xl font-bold text-gray-100">
             {playlist.name}
           </h2>
-          {playlist.private ? <FaLock className="text-md md:text-sm text-yellow-500" /> : null }
+          {playlist.private ? (
+            <FaLock className="text-md md:text-sm text-yellow-500" />
+          ) : null}
         </div>
 
         <p className="text-sm md:text-base text-white">

@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 import SearchPage from "../SearchPage";
 import AllPlaylistsPage from "../playlist/AllPlaylistsPage";
 import ProfilePage from "../ProfilePage";
@@ -8,6 +8,7 @@ import LikedSongsPage from "../liked songs page/LikedSongsPage";
 import CreatePlaylistPage from "../playlist/CreatePlaylistPage";
 import SpecificPlaylistPage from "../playlist/SpecificPlaylistPage";
 import AllFriendsPage from "../friends/AllFriendsPage";
+import SpecificFriendPage from "../friends/SpecificFriendPage";
 
 const MainDisplay = () => {
   // bg-gradient-to-t from-black via-gray-900 to-purple-700 bg-gradient-stops
@@ -22,6 +23,7 @@ const MainDisplay = () => {
         <Route path="/playlist/:id" element={<SpecificPlaylistPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/friends" element={<AllFriendsPage />} />
+        <Route path="/friend/:id" element={<SpecificFriendPage />} />
 
         <Route path="/contact" element={"hello"} />
       </Routes>

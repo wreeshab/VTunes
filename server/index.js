@@ -29,7 +29,7 @@ app.use(express.static("public"));
 //   res.sendFile(__dirname + "/public/delta-redirect.html");
 // });
 
-app.get("/api/user-info",userAuthMiddleware, getUserProfile); //this get user info does not have routes, direct connection to controller
+app.get("/api/user-info", userAuthMiddleware, getUserProfile); //this get user info does not have routes, direct connection to controller
 
 //routes
 app.use("/api/auth", authRouter);

@@ -1,3 +1,5 @@
+// /api/playlist
+
 import express from "express";
 import userAuthMiddleware from "../middleware/userAuthMiddleware.js";
 
@@ -7,6 +9,7 @@ import getAllPlaylistsMadeByUser from "../controllers/playlist controllers/getAl
 import removeSongFromPlaylist from "../controllers/playlist controllers/removeSongFromPlaylistController.js";
 import addSongToPlaylist from "../controllers/playlist controllers/addSongToPlaylistController.js";
 import upload from "../middleware/multerMiddleware.js";
+import getAllPublicPlaylistsMadeByUser from "../controllers/playlist controllers/getAllPublicPlaylistsByUser.js";
 
 const playlistRouter = express.Router();
 
@@ -32,6 +35,12 @@ playlistRouter.post(
   "/:id/remove-song",
   userAuthMiddleware,
   removeSongFromPlaylist
+);
+
+playlistRouter.get(
+  "/public-playlists/:id",
+  userAuthMiddleware,
+  getAllPublicPlaylistsMadeByUser
 );
 
 export default playlistRouter;

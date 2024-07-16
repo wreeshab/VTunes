@@ -2,7 +2,7 @@ import User from "../../models/User.js";
 
 const getUserProfile = async (req, res) => {
   // const { userId } = req.params;
-  const userId = req.userID.id
+  const userId = req.userID.id;
   try {
     const user = await User.findById(userId)
       .populate("friends")
