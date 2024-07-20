@@ -12,6 +12,7 @@ import friendRequstRouter from "./routes/friendRequestRoute.js";
 import getUserProfile from "./controllers/user Controller/getUserInfoController.js";
 import { app, server } from "./socket/socket.js";
 import userAuthMiddleware from "./middleware/userAuthMiddleware.js";
+import partyRouter from "./routes/partyRoute.js";
 //importing routes
 
 const PORT = process.env.PORT || 5000;
@@ -38,6 +39,7 @@ app.use("/api/songs", songRouter);
 app.use("/api/playlist", playlistRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/friend-request", friendRequstRouter);
+app.use("/api/party", partyRouter);
 
 server.listen(PORT, () => {
   console.log(`server running on http://localhost:${PORT}`);

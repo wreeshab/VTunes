@@ -9,6 +9,8 @@ import CreatePlaylistPage from "../playlist/CreatePlaylistPage";
 import SpecificPlaylistPage from "../playlist/SpecificPlaylistPage";
 import AllFriendsPage from "../friends/AllFriendsPage";
 import SpecificFriendPage from "../friends/SpecificFriendPage";
+import CreatePartyPage from "../party mode/CreatePartyPage";
+import Party from "../party mode/Party";
 
 const MainDisplay = () => {
   // bg-gradient-to-t from-black via-gray-900 to-purple-700 bg-gradient-stops
@@ -24,6 +26,7 @@ const MainDisplay = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/friends" element={<AllFriendsPage />} />
         <Route path="/friend/:id" element={<SpecificFriendPage />} />
+        <Route path="/party-mode/*" element={<Party />} />
 
         <Route path="/contact" element={"hello"} />
       </Routes>

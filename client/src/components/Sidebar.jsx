@@ -6,6 +6,7 @@ import { FaPlus } from "react-icons/fa6";
 import { FaUserFriends } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import { Navigate, useNavigate } from "react-router-dom";
+import { GiPartyPopper } from "react-icons/gi";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -62,6 +63,12 @@ const Sidebar = () => {
               className="cursor-pointer"
               onClick={() => navigate("/dashboard/create-playlist")}
             />
+          </div>
+        </div>
+        <div className="p-4 flex items-center justify-between mt-5">
+          <div onClick={()=>navigate("/dashboard/party-mode/create-party")} className="flex items-center gap-3">
+            <GiPartyPopper />
+            <p className="font-semibold">Party Mode</p>
           </div>
         </div>
       </div>
