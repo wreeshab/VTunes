@@ -4,13 +4,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { url } from "../data/backendUrl";
 
-
 const RightHalf = () => {
   const [trackName, setTrackName] = useState("");
   const [thumbnailImage, setThumbnailImage] = useState(null);
   const [trackFile, setTrackFile] = useState(null);
   const [genre, setGenre] = useState("");
   const [language, setLanguage] = useState("");
+  const [lyrics, setLyrics] = useState(""); // New state for lyrics
+  const [djMode, setDjMode] = useState(""); // New state for DJ mode
   const [isLoading, setIsLoading] = useState(false);
 
   const handleThumbnailChange = (e) => {
@@ -24,7 +25,15 @@ const RightHalf = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!trackName || !thumbnailImage || !trackFile || !genre || !language) {
+    if (
+      !trackName ||
+      !thumbnailImage ||
+      !trackFile ||
+      !genre ||
+      !language ||
+      !lyrics ||
+      !djMode
+    ) {
       toast.error("All fields are required.", { autoClose: 1000 });
       return;
     }
@@ -37,18 +46,16 @@ const RightHalf = () => {
     formData.append("trackFile", trackFile);
     formData.append("genre", genre);
     formData.append("language", language);
+    formData.append("lyrics", lyrics); // Append lyrics to form data
+    formData.append("djMode", djMode); // Append DJ mode to form data
 
     try {
-      const response = await axios.post(
-        `${url}/songs/create`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await axios.post(`${url}/songs/create`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       toast.success(response.data.message);
 
       setIsLoading(false);
@@ -57,6 +64,8 @@ const RightHalf = () => {
       setTrackFile(null);
       setGenre("");
       setLanguage("");
+      setLyrics(""); // Clear lyrics state
+      setDjMode(""); // Clear DJ mode state
     } catch (error) {
       console.error(error);
       toast.error(error?.response?.data?.message || "An error occurred.");
@@ -65,7 +74,7 @@ const RightHalf = () => {
   };
 
   return (
-    <div className="w-[40%] flex flex-col items-center justify-center p-6 bg-gradient-to-r from-gray-700 to-gray-900  ">
+    <div className="w-[40%] flex flex-col items-center justify-center p-6 bg-gradient-to-r from-gray-700 to-gray-900">
       <ToastContainer />
       <h1 className="font-bold text-4xl text-white mb-8">
         Upload Your Next Track
@@ -141,6 +150,35 @@ const RightHalf = () => {
             )}
           </div>
         </div>
+        <div className="flex flex-col">
+          <label htmlFor="lyrics" className="text-white mb-2">
+            Lyrics
+          </label>
+          <textarea
+            name="lyrics"
+            id="lyrics"
+            className="p-3 border border-gray-600 rounded focus:outline-none focus:border-white bg-gray-900 text-white px-4"
+            placeholder="Enter lyrics"
+            value={lyrics}
+            onChange={(e) => setLyrics(e.target.value)}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="dj-mode" className="text-white mb-2">
+            DJ Mode (Beat Drop Time in seconds)
+          </label>
+          <input
+            type="number"
+            name="djMode"
+            id="dj-mode"
+            className="p-3 border border-gray-600 rounded focus:outline-none focus:border-white bg-gray-900 text-white px-4"
+            placeholder="Enter time in seconds (0-35)"
+            value={djMode}
+            onChange={(e) => setDjMode(e.target.value)}
+            min="0"
+            max="35"
+          />
+        </div>
         <div className="flex flex-row space-x-4">
           <div className="flex flex-col w-1/2">
             <label htmlFor="genre" className="text-white mb-2">
@@ -153,9 +191,6 @@ const RightHalf = () => {
               value={genre}
               onChange={(e) => setGenre(e.target.value)}
             >
-              <option value="" disabled>
-                Select genre
-              </option>
               <option value="" disabled>
                 Select genre
               </option>
@@ -206,7 +241,7 @@ const RightHalf = () => {
           type="submit"
           className="w-full bg-white text-black py-3 rounded hover:bg-gray-200 transition duration-300 font-bold"
         >
-          Upload Track
+          Upload
         </button>
       </form>
     </div>

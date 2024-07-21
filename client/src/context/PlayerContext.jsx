@@ -21,6 +21,7 @@ const PlayerContextProvider = ({ children }) => {
     name: "",
     artist: "",
     image: "",
+    lyrics: "",
   });
   const [queue, setQueue] = useState([]);
 
@@ -33,6 +34,7 @@ const PlayerContextProvider = ({ children }) => {
           name: firstSong.name,
           artist: firstSong.artist.name,
           image: firstSong.thumbnailUrl,
+          lyrics: firstSong.lyrics ? firstSong.lyrics : "",
         };
 
         setTrackAndPlay(firstSong.audioUrl, songDetails);
@@ -189,6 +191,7 @@ const PlayerContextProvider = ({ children }) => {
       const rect = seekBackground.current.getBoundingClientRect();
       const offsetX = e.clientX - rect.left;
       const seekTime = (offsetX / rect.width) * audioRef.current.duration;
+      // console.log(seekTime);
       audioRef.current.currentTime = seekTime;
 
       if (user && socket) {
@@ -207,11 +210,13 @@ const PlayerContextProvider = ({ children }) => {
           name: newQueue[0].name,
           artist: newQueue[0].artist.name,
           image: newQueue[0].thumbnailUrl,
+          lyrics: newQueue[0].lyrics ? newQueue[0].lyrics : "",
         });
         setTrackAndPlay(newQueue[0].audioUrl, {
           name: newQueue[0].name,
           artist: newQueue[0].artist.name,
           image: newQueue[0].thumbnailUrl,
+          lyrics: newQueue[0]?.lyrics ? newQueue[0].lyrics : "",
         });
       } else {
         setTrack(null);

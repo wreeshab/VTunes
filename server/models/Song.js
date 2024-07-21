@@ -26,6 +26,16 @@ const songSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  lyrics: {
+    type: String,
+    required: true,
+  },
+  djMode: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 35,
+  },
   uploadedAt: {
     type: Date,
     default: Date.now,

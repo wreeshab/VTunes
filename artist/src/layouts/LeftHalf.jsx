@@ -36,16 +36,7 @@ const LeftHalf = () => {
             <SongCardForArtist
               key={song._id}
               song={song}
-              userId={localStorage.getItem("userId")} // Assuming userId is stored in localStorage
-              setTrackAndPlay={(audioUrl, songInfo) => {
-                // Implement this function to handle playing the song
-              }}
-              handleLike={(songId) => {
-                // Implement this function to handle liking the song
-              }}
-              handleDislike={(songId) => {
-                // Implement this function to handle disliking the song
-              }}
+              userId={localStorage.getItem("userId")} 
               likes={song.likes}
               dislikes={song.dislikes}
             />

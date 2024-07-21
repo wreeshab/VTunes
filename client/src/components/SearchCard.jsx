@@ -109,6 +109,7 @@ const SearchCard = ({ type, object }) => {
       name: object.name,
       artist: object.artist.name,
       image: object.thumbnailUrl,
+      lyrics: object.lyrics?object.lyrics:null,
     });
   };
   //-------------------------------------FOR USER TYPE -------------------------------------------------

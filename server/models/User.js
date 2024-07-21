@@ -22,6 +22,14 @@ const userSchema = new mongoose.Schema({
     type: Object,
     default: null,
   },
+  currentAudioUrl: {
+    type: String,
+    default: null,
+  },
+  currentTimeStamp: {
+    type: Number,
+    default: null,
+  },
   likedSongs: [
     {
       type: mongoose.Schema.Types.ObjectId,

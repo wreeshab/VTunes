@@ -3,6 +3,7 @@ import http from "http";
 import express from "express";
 import songChangeIo from "../socket controllers/IOsongChangeController.js";
 import syncPlaybackIo from "../socket controllers/IOsyncPlayback.js";
+import User from "../models/User.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -35,8 +36,13 @@ io.on("connection", (socket) => {
 
   // console.log(userSocketMap);
 
-  socket.on("disconnect", () => {
+  socket.on("disconnect", async () => {
     console.log(socket.id, "user disconnected!");
+    const user = await User.findById(userId);
+    if (user) {
+      user.currentlyPlaying = null;
+      await user.save();
+    }
     delete userSocketMap[userId];
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });

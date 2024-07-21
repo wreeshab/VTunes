@@ -4,34 +4,39 @@ import uploadToCloudinary from "../../utils/cloudinary.js";
 
 const createSong = async (req, res) => {
   console.log(req);
-  const { name, genre, language } = req.body;
+  const { name, genre, language, lyrics, djMode } = req.body;
   const thumbnailFile = req.files.thumbnailImage[0];
   const audioFile = req.files.trackFile[0];
   const artistID = req.userID.id;
-  // console.log(req.files, "req.files");
 
-  if (!name || !thumbnailFile || !audioFile || !genre || !language) {
-    // console.log(name, thumbnailFile, audioFile);
+  if (
+    !name ||
+    !thumbnailFile ||
+    !audioFile ||
+    !genre ||
+    !language ||
+    !lyrics ||
+    !djMode
+  ) {
     return res.status(400).json({ message: "All fields are required!" });
   }
 
   try {
-    // console.log(thumbnailFile, audioFile);
-
     const thumbnailResponse = await uploadToCloudinary(thumbnailFile.path);
     const audioResponse = await uploadToCloudinary(audioFile.path);
-    // console.log("thumbnailResp", thumbnailResponse);
-    // console.log("audioResp", audioResponse);
 
     const newSong = new Song({
       name,
       genre,
       language,
+      lyrics,
+      djMode,
       thumbnailUrl: thumbnailResponse.secure_url,
       audioUrl: audioResponse.secure_url,
       artist: artistID,
     });
     await newSong.save();
+
     const artist = await Artist.findById(artistID);
     artist.composedSongs.push(newSong._id);
     await artist.save();

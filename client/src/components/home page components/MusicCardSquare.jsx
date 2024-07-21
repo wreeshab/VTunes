@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { PlayerContext } from "../../context/PlayerContext";
 
-const MusicCardSquare = ({ image, name, id, audioUrl, artist }) => {
+const MusicCardSquare = ({ image, name, id, audioUrl, artist, lyrics }) => {
+  // console.log(lyrics);
   const { setTrackAndPlay, queue, addToQueue, clearQueue } =
     useContext(PlayerContext);
 
@@ -12,7 +13,7 @@ const MusicCardSquare = ({ image, name, id, audioUrl, artist }) => {
       onClick={(e) => {
         clearQueue();
         addToQueue([{ name, thumbnailUrl: image, audioUrl, artist }]);
-        setTrackAndPlay(audioUrl, { name, image, artist: artist.name });
+        setTrackAndPlay(audioUrl, { name, image, artist: artist.name, lyrics: lyrics });
       }}
     >
       <img src={image} className="mx-auto rounded-md w-36 h-36" alt={name} />
