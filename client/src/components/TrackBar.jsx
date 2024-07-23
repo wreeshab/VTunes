@@ -1,11 +1,17 @@
 import React, { useContext, useState } from "react";
 import { IoMdShuffle } from "react-icons/io";
-import { TbPlayerTrackPrevFilled, TbPlayerTrackNextFilled, TbPlayerPauseFilled } from "react-icons/tb";
+import {
+  TbPlayerTrackPrevFilled,
+  TbPlayerTrackNextFilled,
+  TbPlayerPauseFilled,
+} from "react-icons/tb";
 import { FaPlay } from "react-icons/fa";
 import { ImLoop } from "react-icons/im";
 import { HiMiniSpeakerWave, HiOutlineQueueList } from "react-icons/hi2";
 import { MdLyrics } from "react-icons/md";
 import { PlayerContext } from "../context/PlayerContext";
+import { FaCompactDisc } from "react-icons/fa";
+
 import Queue from "./Queue";
 import Lyrics from "./lyrics/Lyrics";
 
@@ -19,6 +25,7 @@ const TrackBar = () => {
     songDetails,
     time,
     seek,
+    goToDjBeatDrop,
   } = useContext(PlayerContext);
   const [showQueue, setShowQueue] = useState(false);
   const [showLyrics, setShowLyrics] = useState(false); // Add state for lyrics
@@ -45,7 +52,9 @@ const TrackBar = () => {
           <ImLoop className="text-2xl" />
         </div>
         <div className="flex items-center gap-5">
-          <p>{`${time.currentTime.minutes}:${time.currentTime.seconds.toString().padStart(2, "0")}`}</p>
+          <p>{`${time.currentTime.minutes}:${time.currentTime.seconds
+            .toString()
+            .padStart(2, "0")}`}</p>
           <div
             ref={seekBackground}
             className="w-[60vw] max-w-[500px] bg-white rounded-full cursor-pointer"
@@ -57,19 +66,29 @@ const TrackBar = () => {
               style={{ width: "0%" }}
             />
           </div>
-          <p>{`${time.duration.minutes}:${time.duration.seconds.toString().padStart(2, "0")}`}</p>
+          <p>{`${time.duration.minutes}:${time.duration.seconds
+            .toString()
+            .padStart(2, "0")}`}</p>
         </div>
       </div>
       <div className="hidden lg:flex items-center gap-4 opacity-80 mr-10">
-        <HiMiniSpeakerWave className="text-2xl" />
-        <MdLyrics className="text-2xl cursor-pointer" onClick={() => setShowLyrics(true)} /> {/* Add onClick handler */}
+        <FaCompactDisc
+          onClick={() => goToDjBeatDrop()}
+          className="text-2xl cursor-pointer"
+        />
+        <MdLyrics
+          className="text-2xl cursor-pointer"
+          onClick={() => setShowLyrics(true)}
+        />{" "}
+        {/* Add onClick handler */}
         <HiOutlineQueueList
           className="text-2xl cursor-pointer"
           onClick={() => setShowQueue(true)}
         />
       </div>
       {showQueue && <Queue closeQueue={() => setShowQueue(false)} />}
-      {showLyrics && <Lyrics closeLyrics={() => setShowLyrics(false)} />} {/* Render the Lyrics component */}
+      {showLyrics && <Lyrics closeLyrics={() => setShowLyrics(false)} />}{" "}
+      {/* Render the Lyrics component */}
     </div>
   );
 };

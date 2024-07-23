@@ -56,7 +56,8 @@ const DisplayHome = () => {
               id={item._id}
               audioUrl={item.audioUrl}
               artist={item.artist}
-              lyrics = {item.lyrics?item.lyrics:""}
+              lyrics={item.lyrics ? item.lyrics : ""}
+              djMode={item.djMode ? item.djMode : 0}
             />
           ))}
         </div>

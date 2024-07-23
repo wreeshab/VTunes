@@ -22,6 +22,7 @@ const PlayerContextProvider = ({ children }) => {
     artist: "",
     image: "",
     lyrics: "",
+    djMode: "",
   });
   const [queue, setQueue] = useState([]);
 
@@ -35,6 +36,7 @@ const PlayerContextProvider = ({ children }) => {
           artist: firstSong.artist.name,
           image: firstSong.thumbnailUrl,
           lyrics: firstSong.lyrics ? firstSong.lyrics : "",
+          djMode: firstSong.djMode ? firstSong.djMode : 0,
         };
 
         setTrackAndPlay(firstSong.audioUrl, songDetails);
@@ -186,6 +188,15 @@ const PlayerContextProvider = ({ children }) => {
     }
   }, [user, songDetails, socket]);
 
+  const goToDjBeatDrop = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = songDetails.djMode;
+      if (user && socket) {
+        socket.emit("seek", user.id, songDetails.djMode);
+      }
+    }
+  };
+
   const seek = (e) => {
     if (audioRef.current) {
       const rect = seekBackground.current.getBoundingClientRect();
@@ -211,12 +222,14 @@ const PlayerContextProvider = ({ children }) => {
           artist: newQueue[0].artist.name,
           image: newQueue[0].thumbnailUrl,
           lyrics: newQueue[0].lyrics ? newQueue[0].lyrics : "",
+          djMode: newQueue[0].djMode ? newQueue[0].djMode : 0,
         });
         setTrackAndPlay(newQueue[0].audioUrl, {
           name: newQueue[0].name,
           artist: newQueue[0].artist.name,
           image: newQueue[0].thumbnailUrl,
           lyrics: newQueue[0]?.lyrics ? newQueue[0].lyrics : "",
+          djMode: newQueue[0].djMode ? newQueue[0].djMode : 0,
         });
       } else {
         setTrack(null);
@@ -244,6 +257,10 @@ const PlayerContextProvider = ({ children }) => {
     setQueue,
     addToQueue,
     clearQueue,
+    goToDjBeatDrop,
+    // setTrackAndPlayForSocket,
+    // playForSocket,
+    // pauseForSocket,
   };
 
   return (

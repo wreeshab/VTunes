@@ -49,6 +49,7 @@ const LikedSongCard = ({ song, removeFromLikedPage, setLikedSongs }) => {
           artist: song.artist.name,
           image: song.thumbnailUrl,
           lyrics: song.lyrics?song.lyrics:null,
+          djMode : song.djMode ? song.djMode : 0,
         });
       }}
     >
