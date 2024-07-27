@@ -26,9 +26,11 @@ const TrackBar = () => {
     time,
     seek,
     goToDjBeatDrop,
+    playNext,
+    playPrevious,
   } = useContext(PlayerContext);
   const [showQueue, setShowQueue] = useState(false);
-  const [showLyrics, setShowLyrics] = useState(false); // Add state for lyrics
+  const [showLyrics, setShowLyrics] = useState(false);
 
   return (
     <div className="pt-2 h-[10%] border-t-2 border-black  bg-black text-white flex justify-between items-center px-4 ">
@@ -42,13 +44,16 @@ const TrackBar = () => {
       <div className="flex flex-col items-center gap-2 m-auto">
         <div className="flex gap-6 ">
           <IoMdShuffle className="text-2xl" />
-          <TbPlayerTrackPrevFilled className="text-2xl" />
+          <TbPlayerTrackPrevFilled
+            onClick={playPrevious}
+            className="text-2xl"
+          />
           {playerStatus ? (
             <TbPlayerPauseFilled onClick={pause} className="text-2xl" />
           ) : (
             <FaPlay onClick={play} className="text-2xl" />
           )}
-          <TbPlayerTrackNextFilled className="text-2xl" />
+          <TbPlayerTrackNextFilled onClick={playNext} className="text-2xl" />
           <ImLoop className="text-2xl" />
         </div>
         <div className="flex items-center gap-5">
@@ -80,7 +85,6 @@ const TrackBar = () => {
           className="text-2xl cursor-pointer"
           onClick={() => setShowLyrics(true)}
         />{" "}
-        {/* Add onClick handler */}
         <HiOutlineQueueList
           className="text-2xl cursor-pointer"
           onClick={() => setShowQueue(true)}
@@ -88,7 +92,6 @@ const TrackBar = () => {
       </div>
       {showQueue && <Queue closeQueue={() => setShowQueue(false)} />}
       {showLyrics && <Lyrics closeLyrics={() => setShowLyrics(false)} />}{" "}
-      {/* Render the Lyrics component */}
     </div>
   );
 };

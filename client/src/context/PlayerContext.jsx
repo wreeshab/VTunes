@@ -8,10 +8,11 @@ const PlayerContextProvider = ({ children }) => {
   const audioRef = useRef();
   const seekBackground = useRef();
   const seekBar = useRef();
+  // console.log(useRef());
   const { socket } = useContext(SocketContext);
   const { user } = useContext(AuthContext);
 
-  const [track, setTrack] = useState();
+  const [track, setTrack] = useState(null);
   const [playerStatus, setPlayerStatus] = useState(false);
   const [time, setTime] = useState({
     currentTime: { minutes: 0, seconds: 0 },
@@ -30,19 +31,7 @@ const PlayerContextProvider = ({ children }) => {
     setQueue((prevQueue) => {
       const newQueue = [...prevQueue, ...songs];
       if (!track && newQueue.length > 0) {
-        const firstSong = newQueue[0];
-        const songDetails = {
-          name: firstSong.name,
-          artist: firstSong.artist.name,
-          image: firstSong.thumbnailUrl,
-          lyrics: firstSong.lyrics ? firstSong.lyrics : "",
-          djMode: firstSong.djMode ? firstSong.djMode : 0,
-        };
-
-        setTrackAndPlay(firstSong.audioUrl, songDetails);
-        setSongDetails(songDetails);
-
-        console.log(songDetails);
+        playNextSong(newQueue, 0);
       }
       return newQueue;
     });
@@ -78,7 +67,6 @@ const PlayerContextProvider = ({ children }) => {
   const handleTrackChange = ({ audioUrl, songDetails }) => {
     setTrackAndPlayForSocket(audioUrl, songDetails);
   };
-  //the three functions given below prevent infinite loop.
 
   const playForSocket = () => {
     if (audioRef.current) {
@@ -96,7 +84,6 @@ const PlayerContextProvider = ({ children }) => {
   const setTrackAndPlayForSocket = (audioUrl, songDetails) => {
     setTrack(audioUrl);
     setSongDetails(songDetails);
-    // i have no idea why without the timeout its not working, probably there's some delay in the audio loading.
     setTimeout(() => {
       if (audioRef.current) {
         audioRef.current.src = audioUrl;
@@ -202,7 +189,6 @@ const PlayerContextProvider = ({ children }) => {
       const rect = seekBackground.current.getBoundingClientRect();
       const offsetX = e.clientX - rect.left;
       const seekTime = (offsetX / rect.width) * audioRef.current.duration;
-      // console.log(seekTime);
       audioRef.current.currentTime = seekTime;
 
       if (user && socket) {
@@ -213,28 +199,40 @@ const PlayerContextProvider = ({ children }) => {
 
   const handleSongEnd = () => {
     if (queue.length > 0) {
-      const newQueue = queue.slice(1);
-      setQueue(newQueue);
+      playNextSong(queue, 0);
+    } else {
+      setTrack(null);
+      setPlayerStatus(false);
+    }
+  };
 
-      if (newQueue.length > 0) {
-        setSongDetails({
-          name: newQueue[0].name,
-          artist: newQueue[0].artist.name,
-          image: newQueue[0].thumbnailUrl,
-          lyrics: newQueue[0].lyrics ? newQueue[0].lyrics : "",
-          djMode: newQueue[0].djMode ? newQueue[0].djMode : 0,
-        });
-        setTrackAndPlay(newQueue[0].audioUrl, {
-          name: newQueue[0].name,
-          artist: newQueue[0].artist.name,
-          image: newQueue[0].thumbnailUrl,
-          lyrics: newQueue[0]?.lyrics ? newQueue[0].lyrics : "",
-          djMode: newQueue[0].djMode ? newQueue[0].djMode : 0,
-        });
-      } else {
-        setTrack(null);
-        setPlayerStatus(false);
-      }
+  const playNextSong = (queue, index) => {
+    if (index < queue.length) {
+      const nextSong = queue[index];
+      const songDetails = {
+        name: nextSong.name,
+        artist: nextSong.artist.name,
+        image: nextSong.thumbnailUrl,
+        lyrics: nextSong.lyrics ? nextSong.lyrics : "",
+        djMode: nextSong.djMode ? nextSong.djMode : 0,
+      };
+      setTrackAndPlay(nextSong.audioUrl, songDetails);
+    }
+  };
+
+  const playNext = () => {
+    const currentIndex = queue.findIndex((song) => song.audioUrl === track);
+    if (currentIndex < queue.length - 1) {
+      playNextSong(queue, currentIndex + 1);
+    } else {
+      playNextSong(queue, 0);
+    }
+  };
+
+  const playPrevious = () => {
+    const currentIndex = queue.findIndex((song) => song.audioUrl === track);
+    if (currentIndex > 0) {
+      playNextSong(queue, currentIndex - 1);
     }
   };
 
@@ -258,9 +256,8 @@ const PlayerContextProvider = ({ children }) => {
     addToQueue,
     clearQueue,
     goToDjBeatDrop,
-    // setTrackAndPlayForSocket,
-    // playForSocket,
-    // pauseForSocket,
+    playNext,
+    playPrevious,
   };
 
   return (

@@ -42,7 +42,7 @@ const dislikeSong = async (req, res) => {
     await song.save();
     //add disliked song id to user
     user.disLikedSongs.push(songId);
-    //remove liked song id from user
+    //remove liked song id from user's db
     user.likedSongs = user.likedSongs.filter((id) => id.toString() !== songId);
     await user.save();
 

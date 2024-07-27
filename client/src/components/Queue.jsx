@@ -17,14 +17,13 @@ const Queue = ({ closeQueue }) => {
         {queue.map((song, index) => (
           <div
             key={index}
-            className={
-              `p-2 my-4 rounded-lg opacity-100 bg-gray-800`
-              // ${index === 0 ? "bg-green-500" : "bg-gray-800"}`
-            }
+            className={`p-2 my-4 rounded-lg ${
+              song.audioUrl === track ? "bg-green-500" : "bg-gray-800"
+            }`}
           >
-            {/* {index === 0 && (
+            {song.audioUrl === track && (
               <p className="font-semibold text-black">Now Playing</p>
-            )} */}
+            )}
             <div className="flex items-center gap-4">
               <img
                 src={song.thumbnailUrl}

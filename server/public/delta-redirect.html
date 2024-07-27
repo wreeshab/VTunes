@@ -10,15 +10,15 @@
 <body>
     <p>redirecting...</p>
     <script>
-        console.log("hello");
+        console.log("test test");
         // Extracting the authorization code from the URL query parameters
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
 
-        // Sending the code back to the main window at localhost3000/auth
+        // Sending the code back to the main window at localhost3000/auth and not the login or register compo as i did earlier
         if (code) {
             console.log("code", code);
-            window.opener.postMessage({ code }, "http://localhost:3000/auth?"); // Change this to your actual domain
+            window.opener.postMessage({ code }, "http://localhost:3000/auth?");
             window.close();
         }
     </script>
