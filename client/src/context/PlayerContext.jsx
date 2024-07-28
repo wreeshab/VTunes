@@ -123,6 +123,20 @@ const PlayerContextProvider = ({ children }) => {
     }, 25);
   };
 
+  const shuffleQueue = () => {
+    setQueue((prevQueue) => {
+      const shuffledQueue = [...prevQueue];
+      for (let i = shuffledQueue.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledQueue[i], shuffledQueue[j]] = [
+          shuffledQueue[j],
+          shuffledQueue[i],
+        ];
+      }
+      return shuffledQueue;
+    });
+  };
+
   useEffect(() => {
     const updateCurrentTime = () => {
       if (audioRef.current) {
@@ -258,6 +272,7 @@ const PlayerContextProvider = ({ children }) => {
     goToDjBeatDrop,
     playNext,
     playPrevious,
+    shuffleQueue,
   };
 
   return (

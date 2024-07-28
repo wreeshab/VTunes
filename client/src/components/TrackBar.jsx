@@ -28,6 +28,7 @@ const TrackBar = () => {
     goToDjBeatDrop,
     playNext,
     playPrevious,
+    shuffleQueue,
   } = useContext(PlayerContext);
   const [showQueue, setShowQueue] = useState(false);
   const [showLyrics, setShowLyrics] = useState(false);
@@ -43,7 +44,7 @@ const TrackBar = () => {
       </div>
       <div className="flex flex-col items-center gap-2 m-auto">
         <div className="flex gap-6 ">
-          <IoMdShuffle className="text-2xl" />
+          <IoMdShuffle className="text-2xl" onClick={shuffleQueue} />
           <TbPlayerTrackPrevFilled
             onClick={playPrevious}
             className="text-2xl"
