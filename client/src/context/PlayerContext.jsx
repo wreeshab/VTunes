@@ -33,11 +33,23 @@ const PlayerContextProvider = ({ children }) => {
       if (!track && newQueue.length > 0) {
         playNextSong(newQueue, 0);
       }
+      if (user && socket) {
+        socket.emit("update-queue", { userId: user.id, newQueue });
+      }
       return newQueue;
     });
   };
 
-  const clearQueue = () => setQueue([]);
+  const updateQueueForSocket = (newQueue) => {
+    setQueue(newQueue);
+  };
+
+  const clearQueue = () => {
+    setQueue([]);
+    if (user && socket) {
+      socket.emit("update-queue", { userId: user.id, newQueue: [] });
+    }
+  };
 
   useEffect(() => {
     if (socket) {
@@ -46,6 +58,7 @@ const PlayerContextProvider = ({ children }) => {
       socket.on("pause", handlePause);
       socket.on("seek", handleSeek);
       socket.on("track-change", handleTrackChange);
+      socket.on("update-queue", updateQueueForSocket);
 
       return () => {
         socket.emit("leave-room", user.id);
@@ -53,6 +66,7 @@ const PlayerContextProvider = ({ children }) => {
         socket.off("pause", handlePause);
         socket.off("seek", handleSeek);
         socket.off("track-change", handleTrackChange);
+        socket.off("update-queue", updateQueueForSocket);
       };
     }
   }, [socket]);
@@ -132,6 +146,9 @@ const PlayerContextProvider = ({ children }) => {
           shuffledQueue[j],
           shuffledQueue[i],
         ];
+      }
+      if(user && socket){
+        socket.emit("update-queue", { userId: user.id, newQueue: shuffledQueue });
       }
       return shuffledQueue;
     });

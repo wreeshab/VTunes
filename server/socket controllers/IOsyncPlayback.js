@@ -31,6 +31,11 @@ const syncPlaybackIo = async ({ io, socket }) => {
     console.log(`Broadcasting track-change event in room: ${userId}`);
   });
 
+  socket.on("update-queue", ({ userId, newQueue }) => {
+    socket.to(userId).emit("update-queue", newQueue);
+    console.log(`Broadcasting update-queue event in room: ${userId}`);
+  });
+
   socket.on("disconnect", () => {
     console.log("User disconnected");
   });

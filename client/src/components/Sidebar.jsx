@@ -65,12 +65,12 @@ const Sidebar = () => {
             />
           </div>
         </div>
-        <div className="p-4 flex items-center justify-between mt-5">
+        {/* <div className="p-4 flex items-center justify-between mt-5">
           <div onClick={()=>navigate("/dashboard/party-mode/create-party")} className="flex items-center gap-3">
             <GiPartyPopper />
             <p className="font-semibold">Party Mode</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
