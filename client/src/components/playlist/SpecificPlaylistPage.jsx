@@ -60,21 +60,22 @@ const SpecificPlaylistPage = () => {
   const handlePlayAll = () => {
     clearQueue();
     setTimeout(() => {
-      addToQueue(playlist.songsArray.slice(1));
-      setTrackAndPlay(playlist.songsArray[0].audioUrl, {
-        name: playlist.songsArray[0].name,
-        artist: playlist.songsArray[0].artist.name,
-        image: playlist.songsArray[0].thumbnailUrl,
-        lyrics: playlist.songsArray[0].lyrics
-          ? playlist.songsArray[0].lyrics
-          : "",
-        djMode: playlist.songsArray[0].djMode
-          ? playlist.songsArray[0].djMode
-          : 0,
-      });
+      if (playlist && playlist.songsArray && playlist.songsArray.length > 0) {
+        const firstSong = playlist.songsArray[0];
+        const remainingSongs = playlist.songsArray.slice(1);
+  
+        setTrackAndPlay(firstSong.audioUrl, {
+          name: firstSong.name,
+          artist: firstSong.artist.name,
+          image: firstSong.thumbnailUrl,
+          lyrics: firstSong.lyrics ? firstSong.lyrics : "",
+          djMode: firstSong.djMode ? firstSong.djMode : 0,
+        });
+        addToQueue(playlist.songsArray);
+      }
     }, 150);
-    console.log(playlist.songsArray);
   };
+  
 
   if (!playlist) {
     return <div>Loading...</div>;
